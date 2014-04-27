@@ -10,9 +10,3 @@ QtGame::QtGame()
 //    this->gamepad = new QtGamepad();
 //    this->sound = new QtGSound();
 }
-
-
-void QtGame::init(QApplication *qapp, QtGCanvas *glcanv){
-    this->app = qapp;
-    this->canvas = glcanv;
-}

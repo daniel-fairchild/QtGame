@@ -17,12 +17,12 @@ protected:
     QtGSound* sound;
 
     QApplication* app;
-    QtGCanvas* canvas;
+//    QtGCanvas* canvas;
 
 public:
     QtGame();
 
-    void init(QApplication* qapp, QtGCanvas* glcanv);
+//    virtual void init(QApplication* qapp, QtGCanvas* glcanv);
 
     virtual void quit() = 0;
 

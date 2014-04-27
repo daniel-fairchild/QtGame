@@ -11,14 +11,14 @@ public:
     ~QtGQueueMan();
 
     size_t frame_number();
-    DrawQueue* next_queue();
+    QtgDrawQueue* next_queue();
 
 protected:
     size_t qitem_size;
     int num_queues;
     size_t frame_no;
 
-    DrawQueue** queues;
+    QtgDrawQueue** queues;
 };
 
 #endif // QTGQUEUEMAN_H

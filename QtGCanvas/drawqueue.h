@@ -8,10 +8,10 @@
 
 #include "draw_base_t.h"
 
-class DrawQueue
+class QtgDrawQueue
 {
 public:
-    explicit DrawQueue(size_t item_size);
+    explicit QtgDrawQueue(size_t item_size);
 
     /**
      * @brief aquire exclusive access to this queue

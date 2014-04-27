@@ -22,7 +22,7 @@ typedef struct
 class QtGDrawer
 {
 public:
-    virtual void imprint(DrawQueue* queue, void *source) = 0;
+    virtual void imprint(QtgDrawQueue* queue, void *source) = 0;
     virtual void draw(draw_base_t* imprinted) = 0;
 
 };
