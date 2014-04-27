@@ -7,11 +7,9 @@
 #define PMASK ((1 << QPARTSIZEBITS)-1)
 #define QSUBQS 512
 
-DrawQueue::DrawQueue(QObject *parent) :
-    QObject(parent)
+DrawQueue::DrawQueue(size_t item_size)
 {
-
-    this->item_size = -1;
+    this->item_size = item_size;
     this->sub_queues = (draw_base_t**)calloc(sizeof(draw_base_t*), QSUBQS);
 
     this->qpos = 0;
@@ -54,11 +52,6 @@ void DrawQueue::draw()
         }
     }
     qpos = 0;
-}
-
-void DrawQueue::set_draw_item_size(size_t size)
-{
-    this->item_size = size;
 }
 
 void DrawQueue::grow()

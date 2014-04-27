@@ -8,11 +8,10 @@
 
 #include "draw_base_t.h"
 
-class DrawQueue : public QObject
+class DrawQueue
 {
-    Q_OBJECT
 public:
-    explicit DrawQueue(QObject *parent = 0);
+    explicit DrawQueue(size_t item_size);
 
     /**
      * @brief aquire exclusive access to this queue
@@ -34,10 +33,6 @@ public:
      * @brief Executes draw() on all drawables in queue and empties it.
      */
     void draw();
-
-
-    void set_draw_item_size(size_t size);
-
 
 private:
     QMutex mutex;

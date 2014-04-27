@@ -8,13 +8,13 @@ class ShaderBundle
 {
 public:
     ShaderBundle(QGLContext* ctxt, const char* fragmentfn, const char* vertexfn, const char* geometryfn=NULL);
-    QGLShaderProgram* get_program();
+    QGLShaderProgram* program();
 
 protected:
     const char* fragmentfn;
     const char* geometryfn;
     const char* vertexfn;
-    QGLShaderProgram* program;
+    QGLShaderProgram* prog;
     QGLContext* context;
 
 private:

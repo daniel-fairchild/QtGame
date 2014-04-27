@@ -16,13 +16,16 @@ QT -= gui
 SOURCES += \
     qtgcanvas.cpp \
     drawqueue.cpp \
-    shaderbundle.cpp
+    qtgshaderbundle.cpp \
+    qtgqueueman.cpp
 
 HEADERS += \
     ../qtgcanvas.h \
     ../drawqueue.h \
     ../qtgdrawer.h \
     ../draw_base_t.h \
-    shaderbundle.h
+    ../qtgshaderbundle.h \
+    ../qtgqueueman.h
+
 
 TARGET = ../QtGCanvas

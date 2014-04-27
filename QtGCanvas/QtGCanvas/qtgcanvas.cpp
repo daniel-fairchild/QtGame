@@ -7,34 +7,34 @@
 #include <QFile>
 
 QtGCanvas::QtGCanvas(size_t dritmsize, const QGLFormat& format, QWidget* parent)
-    : QGLWidget(format, (QWidget*) parent)
+    : QGLWidget(format, parent)
 {
 //    this->shaders = new QVector<ShaderBundle*>(10);
-    for (int i = 0; i < NUM_DQ; i++)
-        this->dqueues[i].set_draw_item_size(dritmsize);
+//    for (int i = 0; i < NUM_DQ; i++)
+//        this->dqueues[i].set_draw_item_size(dritmsize);
+
+    this->frameno = 0;
+    this->current_shader_name = -1;
 }
 
-void QtGCanvas::set_gfx_src(QtGfxSource *src){
-    this->gfx_src = src;
-}
-
-
-bool QtGCanvas::set_shader(QtGCanvas::SHADERS shdnme){
+/*
+bool QtGCanvas::set_shader(int shdnme){
     if (this->current_shader_name != shdnme){
         this->current_shader_name = shdnme ;
-        this->shaders[shdnme]->get_program()->bind();
+        this->shaders[shdnme]->prog()->bind();
         return true;
     }
     return false;
 }
 
-void QtGCanvas::add_shader(QtGCanvas::SHADERS name, const char* fragment, const char*  vertex, const char* geometry){
+void QtGCanvas::add_shader(int name_ref, const char* fragment, const char*  vertex, const char* geometry){
     ShaderBundle* sb = new ShaderBundle(this->context(), fragment, vertex, geometry);
-    this->shaders[name] = sb;
+    this->shaders[name_ref] = sb;
 }
 
 
 QGLShaderProgram* QtGCanvas::QtGCanvas::get_shader(){
-    return this->shaders[this->current_shader_name]->get_program();
+    return this->shaders[this->current_shader_name]->prog();
 }
+*/
 

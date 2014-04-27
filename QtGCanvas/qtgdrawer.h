@@ -19,14 +19,12 @@ typedef struct
 
 
 
-class QtGDrawer : protected QGLFunctions
+class QtGDrawer
 {
 public:
     virtual void imprint(DrawQueue* queue, void *source) = 0;
-
     virtual void draw(draw_base_t* imprinted) = 0;
 
-    virtual void init() = 0;
 };
 
 
