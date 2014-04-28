@@ -20,7 +20,6 @@ static inline draw_base_t* _lookup(draw_base_t** queues, int qpos, size_t item_s
     return (draw_base_t*) ((size_t)tbl + (PMASK & qpos)*item_size);
 }
 
-
 void QtgDrawQueue::lock()
 {
 //    if (!this->lock.fastTryLock()){
@@ -28,8 +27,8 @@ void QtgDrawQueue::lock()
 //    }
     this->mutex.lock();
 }
-
 void QtgDrawQueue::unlock()
+
 {
     this->mutex.unlock();
 }
@@ -47,7 +46,8 @@ void QtgDrawQueue::draw()
     for (int dp = 0 ; dp < qpos;){
         for (int cp = 0; dp < qpos  && cp <= PMASK ; cp++, dp++){
             draw_base_t* ti = _lookup(this->sub_queues, dp, this->item_size);
-            ti->drawer->draw(ti);
+            if (ti)
+                ti->drawer->draw(ti);
         }
     }
     qpos = 0;

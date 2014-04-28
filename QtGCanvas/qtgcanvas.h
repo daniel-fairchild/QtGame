@@ -8,16 +8,13 @@
 #include <QtOpenGL/QGLFunctions>
 
 #include "drawqueue.h"
-#include "../qtgfxsource.h"
+#include "qtgfxsource.h"
 #include "qtgshaderbundle.h"
 
 
 
 class QtGCanvas : public QGLWidget, public QGLFunctions
 {
-    Q_OBJECT
-
-public:
 
 public:
     enum SHADERS {

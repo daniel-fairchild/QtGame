@@ -16,12 +16,14 @@ ShaderBundle::ShaderBundle(QGLContext* ctxt, const char *fragmentfn, const char 
     this->geometryfn = geometryfn;
 
     _shader_add(vertexfn, QGLShader::Vertex);
+
     if (geometryfn != NULL){
         _shader_add(geometryfn, QGLShader::Geometry);
     }
     _shader_add(fragmentfn, QGLShader::Fragment);
-    if (! this->prog->link())
+    if (! this->prog->link()){
         qDebug() << "shader link error:" << fragmentfn << ": "<< this->prog->log();
+    }
 }
 
 QGLShaderProgram *ShaderBundle::program()

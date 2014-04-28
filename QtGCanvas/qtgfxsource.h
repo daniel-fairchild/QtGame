@@ -1,7 +1,7 @@
 #ifndef QTGFXSOURCE_H
 #define QTGFXSOURCE_H
 
-#include "QtGCanvas/drawqueue.h"
+#include "drawqueue.h"
 
 class QtGfxSource
 {

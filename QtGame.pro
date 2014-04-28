@@ -14,8 +14,8 @@ SUBDIRS = \
         QtGStorage
 
 # build must be last:
-CONFIG += ordered
-SUBDIRS += QtGame
+#CONFIG += ordered
+#SUBDIRS += QtGame
 
 
 
