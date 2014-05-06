@@ -12,8 +12,6 @@
 #include "qtgshaderbundle.h"
 #include "qtgqueueman.h"
 
-
-
 class QtGCanvas : public QGLWidget, public QGLFunctions
 {
 

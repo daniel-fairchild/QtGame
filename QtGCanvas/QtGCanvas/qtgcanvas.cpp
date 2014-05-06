@@ -44,3 +44,19 @@ QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QG
 {
     this->game = agame;
 }
+
+
+void QtGCanvas::set_shader(QtGShaderBundle *shader){
+
+    GLuint sdi = shader->program()->programId();
+    if (this->active_shader != sdi){
+        this->active_shader = sdi;
+        //        if(!shader->program()->isLinked())
+        //            qDebug() << "relinking " << shader->program()->link();
+        //        this->glUseProgram(sdi);
+
+        if (!shader->program()->bind()){
+            qDebug() << "program binding error: " << shader->program()->log();
+        }
+    }
+}
