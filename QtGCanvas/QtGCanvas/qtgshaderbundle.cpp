@@ -1,36 +1,86 @@
 #include "../qtgshaderbundle.h"
+#include <locale.h>
 
-void ShaderBundle::_shader_add(const char* fname, QGLShader::ShaderTypeBit type){
-    if (!this->prog->addShaderFromSourceFile(type, QString::fromUtf8(fname))){
-        qDebug() << "shader compile error: "<< fname << this->prog->log();
-    }
-}
+#include <Qfile>
+#include <QGLShader>
 
+QtGShaderBundle::QtGShaderBundle(const char *fragmentfn, const char *vertexfn, const char *geometryfn){
 
-ShaderBundle::ShaderBundle(QGLContext* ctxt, const char *fragmentfn, const char *vertexfn, const char *geometryfn){
-
-    this->context = ctxt;
-    this->prog = new QGLShaderProgram(this->context);
     this->fragmentfn = fragmentfn;
     this->vertexfn = vertexfn;
     this->geometryfn = geometryfn;
-
-    _shader_add(vertexfn, QGLShader::Vertex);
-
-    if (geometryfn != NULL){
-        _shader_add(geometryfn, QGLShader::Geometry);
-    }
-    _shader_add(fragmentfn, QGLShader::Fragment);
-    if (! this->prog->link()){
-        qDebug() << "shader link error:" << fragmentfn << ": "<< this->prog->log();
-    }
+    this->prog = NULL;
 }
 
-QGLShaderProgram *ShaderBundle::program()
-{
+QGLShaderProgram *QtGShaderBundle::program(){
     return this->prog;
 }
 
+static inline QString _readfile(const char* fname){
+    QString fn = QString::fromUtf8(fname);
+    QFile file(fn);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qDebug() << "Could not open " << fn;
+        return QString("");
+    }
+    QTextStream in(&file);
+    return in.readAll();
+}
 
+static inline bool _shader_add(const char* fname,
+                               QGLShader::ShaderTypeBit type,
+                               QGLShaderProgram* prog,
+                               QGLContext* ctx){
+    //    QGLShader sh(type, ctx);
+    //    if (!sh.compileSourceCode(_readfile(fname))){
+    //        qDebug() << "shader compile error: "<< fname << sh.log();
+    //        return false;
+    //    }
 
+    //    if (!prog->addShader(&sh)){
+    //        qDebug() << "error adding shader: "<< fname << prog->log();
+    //        return false;
+    //    }
 
+    if (!prog->addShaderFromSourceCode(type, _readfile(fname))){
+        qDebug() << "shader compile error: "<< fname << prog->log();
+        return false;
+    }
+    return true;
+}
+
+bool QtGShaderBundle::compile(QGLContext* context){
+    // Override system locale until shaders are compiled
+    setlocale(LC_NUMERIC, "C");
+
+    //    if (this->prog != NULL){
+    //        this->prog->release();
+    //        delete this->prog;
+    //    }
+
+    this->prog = new QGLShaderProgram(context);
+
+    if (!_shader_add(vertexfn, QGLShader::Vertex, this->prog, context))
+        return false;
+
+    if (geometryfn != NULL){
+        if (!_shader_add(geometryfn, QGLShader::Geometry, this->prog, context))
+            return false;
+    }
+    if (!_shader_add(fragmentfn, QGLShader::Fragment, this->prog, context))
+        return false;
+
+    if (!this->prog->link()){
+        qDebug() << "shader link error:" << fragmentfn << ": "<< this->prog->log();
+        return false;
+    }
+
+    if (!this->prog->bind()){
+        qDebug() << "shader bind error:" << fragmentfn << ": "<< this->prog->log();
+        return false;
+    }
+    // Restore system locale
+    setlocale(LC_ALL, "");
+
+    return true;
+}

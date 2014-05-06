@@ -6,6 +6,7 @@
 
 TEMPLATE = subdirs
 SUBDIRS = \
+        QtGMisc \
         QtGCanvas \
         QtGSound \
         QtGMusic \

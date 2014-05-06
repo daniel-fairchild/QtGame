@@ -5,7 +5,6 @@
 #include "drawqueue.h"
 
 #include <QGLFunctions>
-
 #include <QVector2D>
 #include <QVector3D>
 
@@ -24,6 +23,8 @@ class QtGDrawer
 public:
     virtual void imprint(QtgDrawQueue* queue, void *source) = 0;
     virtual void draw(draw_base_t* imprinted) = 0;
+
+    virtual bool init() = 0;
 
 };
 

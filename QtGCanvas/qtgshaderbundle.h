@@ -4,21 +4,22 @@
 #include <QString>
 #include <QtOpenGL/QGLShaderProgram>
 
-class ShaderBundle
+class QtGShaderBundle
 {
 public:
-    ShaderBundle(QGLContext* ctxt, const char* fragmentfn, const char* vertexfn, const char* geometryfn=NULL);
+    QtGShaderBundle(const char* fragmentfn, const char* vertexfn, const char* geometryfn=NULL);
+
     QGLShaderProgram* program();
+
+    bool compile(QGLContext* context);
 
 protected:
     const char* fragmentfn;
     const char* geometryfn;
     const char* vertexfn;
     QGLShaderProgram* prog;
-    QGLContext* context;
 
 private:
-    void _shader_add(const char* fname, QGLShader::ShaderTypeBit type);
 };
 
 #endif // SHADERBUNDLE_H

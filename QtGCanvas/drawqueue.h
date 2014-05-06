@@ -32,7 +32,7 @@ public:
     /**
      * @brief Executes draw() on all drawables in queue and empties it.
      */
-    void draw();
+    void draw_frame();
 
 private:
     QMutex mutex;

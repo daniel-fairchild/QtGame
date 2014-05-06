@@ -6,16 +6,16 @@
 #include <QDebug>
 #include <QFile>
 
-QtGCanvas::QtGCanvas(size_t dritmsize, const QGLFormat& format, QWidget* parent)
-    : QGLWidget(format, parent)
-{
-//    this->shaders = new QVector<ShaderBundle*>(10);
-//    for (int i = 0; i < NUM_DQ; i++)
-//        this->dqueues[i].set_draw_item_size(dritmsize);
+//QtGCanvas::QtGCanvas(size_t dritmsize, const QGLFormat& format, QWidget* parent)
+//    : QGLWidget(format, parent)
+//{
+////    this->shaders = new QVector<ShaderBundle*>(10);
+////    for (int i = 0; i < NUM_DQ; i++)
+////        this->dqueues[i].set_draw_item_size(dritmsize);
 
-    this->frameno = 0;
-    this->current_shader_name = -1;
-}
+//    this->frameno = 0;
+//    this->current_shader_name = -1;
+//}
 
 /*
 bool QtGCanvas::set_shader(int shdnme){
@@ -38,3 +38,9 @@ QGLShaderProgram* QtGCanvas::QtGCanvas::get_shader(){
 }
 */
 
+
+
+QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QGLWidget(format, parent)
+{
+    this->game = agame;
+}

@@ -10,6 +10,7 @@
 #include "drawqueue.h"
 #include "qtgfxsource.h"
 #include "qtgshaderbundle.h"
+#include "qtgqueueman.h"
 
 
 
@@ -17,28 +18,18 @@ class QtGCanvas : public QGLWidget, public QGLFunctions
 {
 
 public:
-    enum SHADERS {
-        COUNT
-    } ;
+    QtGCanvas(QtGfxSource* game, QGLFormat format, QWidget* parent = 0);
+    void set_shader(QtGShaderBundle* shader);
 
-    QtGCanvas(size_t dritmsize, const QGLFormat& format, QWidget* parent = 0);
-    bool set_shader(int shadename);
-    QGLShaderProgram* get_shader();
-
-//    virtual void set_gfx_src(QtGfxSource* src) = 0;
-
+//    virtual QMatrix4x4* MV_Projection() = 0;
 
 protected:
-    void add_shader(int name_ref, const char* fragmentfn, const char* vertexfn, const char* geometryfn=NULL);
     QtGfxSource* gfx_src;
 
-#define NUM_DQ 2
-#define NUM_SHADERS 64
-//    DrawQueue dqueues[NUM_DQ];
-    ShaderBundle* shaders[NUM_SHADERS];
+    GLuint active_shader;
 
-    int current_shader_name;
-    int frameno;
+    QtGQueueMan* queman;
+    QtGfxSource* game;
 
 private:
 
