@@ -22,10 +22,9 @@ static inline draw_base_t* _lookup(draw_base_t** queues, int qpos, size_t item_s
 
 void QtgDrawQueue::lock()
 {
-    //    if (!this->lock.fastTryLock()){
-    //        qDebug() << "Drawqueue lock contention!";
-    //    }
-    this->mutex.lock();
+    if (!this->mutex.tryLock()){
+        qDebug() << "Drawqueue lock contention!";
+    }
 }
 void QtgDrawQueue::unlock()
 
@@ -34,15 +33,18 @@ void QtgDrawQueue::unlock()
 }
 
 draw_base_t* QtgDrawQueue::next_item(){
+    this->next_lock.lock();
     // test to see if we need to grow the allocation size
     if ((this->qpos & this->part_mask) == 0){
         this->grow();
     }
-    return _lookup(this->sub_queues, this->qpos++, this->item_size);
+    draw_base_t*  outp = _lookup(this->sub_queues, this->qpos++, this->item_size);
+    this->next_lock.unlock();
+    return  outp;
 }
 
-void QtgDrawQueue::draw_frame()
-{
+void QtgDrawQueue::draw_frame(){
+    this->lock();
     for (int dp = 0 ; dp < qpos;){
         for (int cp = 0; dp < qpos  && cp <= PMASK ; cp++, dp++){
             draw_base_t* ti = _lookup(this->sub_queues, dp, this->item_size);
@@ -50,6 +52,7 @@ void QtgDrawQueue::draw_frame()
         }
     }
     qpos = 0;
+    this->unlock();
 }
 
 void QtgDrawQueue::grow()

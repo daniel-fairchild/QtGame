@@ -36,6 +36,7 @@ public:
 
 private:
     QMutex mutex;
+    QMutex next_lock;
     draw_base_t** sub_queues;
     int qpos;
     unsigned int part_mask;

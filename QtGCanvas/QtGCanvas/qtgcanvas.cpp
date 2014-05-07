@@ -47,7 +47,6 @@ QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QG
 
 
 bool QtGCanvas::set_shader(QtGShaderBundle *shader){
-
     GLuint sdi = shader->program()->programId();
     if (this->active_shader != sdi){
         this->active_shader = sdi;
@@ -58,7 +57,6 @@ bool QtGCanvas::set_shader(QtGShaderBundle *shader){
         if (!shader->program()->bind()){
             qDebug() << "program binding error: " << shader->program()->log();
         }
-
         return true;
     }
     return false;
