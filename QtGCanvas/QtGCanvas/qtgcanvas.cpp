@@ -1,14 +1,13 @@
 #include "../qtgcanvas.h"
-
-//#include "../OGLutils/GLGraphics/Core3_2_context.h"
-//#include "../OGLutils/GLGraphics/GLHeader.h"
-
 #include <QDebug>
 #include <QFile>
+#include <QMouseEvent>
+
 
 //QtGCanvas::QtGCanvas(size_t dritmsize, const QGLFormat& format, QWidget* parent)
 //    : QGLWidget(format, parent)
 //{
+
 ////    this->shaders = new QVector<ShaderBundle*>(10);
 ////    for (int i = 0; i < NUM_DQ; i++)
 ////        this->dqueues[i].set_draw_item_size(dritmsize);
@@ -17,27 +16,53 @@
 //    this->current_shader_name = -1;
 //}
 
-/*
-bool QtGCanvas::set_shader(int shdnme){
-    if (this->current_shader_name != shdnme){
-        this->current_shader_name = shdnme ;
-        this->shaders[shdnme]->prog()->bind();
-        return true;
+//static inline void _kb_read(int t, uint8 jmin, uint8 trig, uint8 jmax, ctrl_frame_t* kbd)
+//{
+//    switch (t) {
+//    case Qt::Key_Up:
+//        kbd->joyx = jmax;
+//        break;
+//    case Qt::Key_Down:
+//        kbd->joyx = jmin;
+//        break;
+//    case Qt::Key_Left:
+//        kbd->joyy = jmax;
+//        break;
+//    case Qt::Key_Right:
+//        kbd->joyy = jmin;
+//        break;
+//    case Qt::Key_Q:
+//        kbd->ltrig = trig;
+//        break;
+//    case Qt::Key_W:
+//        kbd->rtrig = trig;
+//        break;
+//    default:
+//        break;
+//    }
+//}
+
+void QtGCanvas::keyPressEvent(QKeyEvent *e){
+//    _kb_read(e->key(), 0, 255, 255, &kbd);
+//    if(e->key() == Qt::Key_Space)
+//        kbd.buttons |= B_A;
+
+//    if(e->key() == Qt::Key_Shift)
+//        kbd.buttons |= B_B;
+    if(e->key() == Qt::Key_Escape){
+        this->close();
     }
-    return false;
+
 }
 
-void QtGCanvas::add_shader(int name_ref, const char* fragment, const char*  vertex, const char* geometry){
-    ShaderBundle* sb = new ShaderBundle(this->context(), fragment, vertex, geometry);
-    this->shaders[name_ref] = sb;
+void QtGCanvas::keyReleaseEvent(QKeyEvent *e){
+//    _kb_read(e->key(), 128, 0, 128, &kbd);
+//    if(e->key() == Qt::Key_Space)
+//        kbd.buttons &= ~B_A;
+
+//    if(e->key() == Qt::Key_Shift)
+    //        kbd.buttons &= ~B_B;
 }
-
-
-QGLShaderProgram* QtGCanvas::QtGCanvas::get_shader(){
-    return this->shaders[this->current_shader_name]->prog();
-}
-*/
-
 
 
 QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QGLWidget(format, parent)
@@ -60,4 +85,35 @@ bool QtGCanvas::set_shader(QtGShaderBundle *shader){
         return true;
     }
     return false;
+}
+
+void QtGCanvas::mousePressEvent(QMouseEvent *e)
+{
+    // Save mouse press position
+    mousePressPosition = QVector2D(e->localPos());
+    this->draggmode = true;
+}
+
+void QtGCanvas::mouseReleaseEvent(QMouseEvent *e)
+{
+    this->draggmode=false;
+}
+
+void QtGCanvas::mouseMoveEvent(QMouseEvent *e)
+{
+    // Mouse release position - mouse press position
+    QVector2D diff = QVector2D(e->localPos()) - mousePressPosition;
+
+    // Rotation axis is perpendicular to the mouse position difference
+    // vector
+    QVector3D n = QVector3D(-diff.y(), -diff.x(), 0.0);
+
+    //    // Accelerate angular speed relative to the length of the mouse sweep
+    //    qreal acc = diff.length() / 100.0;
+
+    // Calculate new rotation axis as weighted sum
+    rotationAxis = n;
+
+    // Increase angular speed
+    angularSpeed = n.length();
 }

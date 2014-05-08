@@ -20,6 +20,7 @@ public:
     bool set_shader(QtGShaderBundle* shader);
 
 //    virtual QMatrix4x4* MV_Projection() = 0;
+    QQuaternion rotation;
 
 protected:
     QtGfxSource* gfx_src;
@@ -29,7 +30,30 @@ protected:
     QtGQueueMan* queman;
     QtGfxSource* game;
 
+
+    QVector3D rotationAxis;
+
+
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+
+    void keyPressEvent(QKeyEvent* e);
+    void keyReleaseEvent(QKeyEvent *e);
+
+    bool draggmode;
+    QVector2D mousePressPosition;
+    qreal angularSpeed;
+
+
 private:
+
+
+
+
+protected:
+
+
 
 };
 
