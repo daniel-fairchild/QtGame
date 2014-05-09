@@ -3,6 +3,8 @@
 #include <QFile>
 #include <QMouseEvent>
 
+#include "../qtgdrawer.h"
+
 
 //QtGCanvas::QtGCanvas(size_t dritmsize, const QGLFormat& format, QWidget* parent)
 //    : QGLWidget(format, parent)
@@ -50,6 +52,7 @@ void QtGCanvas::keyPressEvent(QKeyEvent *e){
 //    if(e->key() == Qt::Key_Shift)
 //        kbd.buttons |= B_B;
     if(e->key() == Qt::Key_Escape){
+        this->game->quit();
         this->close();
     }
 
@@ -68,23 +71,31 @@ void QtGCanvas::keyReleaseEvent(QKeyEvent *e){
 QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QGLWidget(format, parent)
 {
     this->game = agame;
+    this->active_shader = 0xDEADBEEF;
+    this->active_drawer = NULL;
 }
 
-
-bool QtGCanvas::set_shader(QtGShaderBundle *shader){
+GLuint QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
     GLuint sdi = shader->program()->programId();
     if (this->active_shader != sdi){
+        if (this->active_drawer != NULL)
+            this->active_drawer->deactivate();
+        this->active_drawer = owner;
+
+        GLuint outp = this->active_shader;
         this->active_shader = sdi;
         //        if(!shader->program()->isLinked())
         //            qDebug() << "relinking " << shader->program()->link();
         //        this->glUseProgram(sdi);
 
-        if (!shader->program()->bind()){
-            qDebug() << "program binding error: " << shader->program()->log();
-        }
-        return true;
+        glUseProgram(sdi);
+//        qDebug() << "switched shader to: " << sdi;
+//        if (!shader->program()->bind()){
+//            qDebug() << "program binding error: " << shader->program()->log();
+//        }
+        return outp;
     }
-    return false;
+    return -1;
 }
 
 void QtGCanvas::mousePressEvent(QMouseEvent *e)

@@ -23,9 +23,8 @@ class QtGDrawer
 public:
     virtual void imprint(QtgDrawQueue* queue, void *source) = 0;
     virtual void draw(draw_base_t* imprinted) = 0;
-
     virtual bool init() = 0;
-
+    virtual void deactivate() = 0;
 };
 
 

@@ -17,7 +17,8 @@ class QtGCanvas : public QGLWidget, public QGLFunctions
 
 public:
     QtGCanvas(QtGfxSource* game, QGLFormat format, QWidget* parent = 0);
-    bool set_shader(QtGShaderBundle* shader);
+    GLuint set_shader(QtGShaderBundle* shader, QtGDrawer* owner);
+
 
 //    virtual QMatrix4x4* MV_Projection() = 0;
     QQuaternion rotation;
@@ -26,6 +27,7 @@ protected:
     QtGfxSource* gfx_src;
 
     GLuint active_shader;
+    QtGDrawer* active_drawer;
 
     QtGQueueMan* queman;
     QtGfxSource* game;

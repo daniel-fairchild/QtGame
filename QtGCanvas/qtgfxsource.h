@@ -11,6 +11,7 @@ class QtGfxSource
 public:
     virtual void imprint_frame(QtgDrawQueue* queue) = 0;
     virtual bool init(QtGCanvas* canvas) = 0;
+    virtual void quit() = 0;
 };
 
 #endif // QTGFXSOURCE_H
