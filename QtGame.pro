@@ -3,7 +3,7 @@
 # Project created by QtCreator 2014-04-16T16:13:47
 #
 #-------------------------------------------------
-
+ 
 TEMPLATE = subdirs
 SUBDIRS = \
         QtGMisc \
@@ -16,6 +16,7 @@ SUBDIRS = \
 
 # build must be last:
 #CONFIG += ordered
+
 #SUBDIRS += QtGame
 
 
