@@ -17,7 +17,7 @@ class QtGCanvas : public QGLWidget, public QGLFunctions
 
 public:
     QtGCanvas(QtGfxSource* game, QGLFormat format, QWidget* parent = 0);
-    GLuint set_shader(QtGShaderBundle* shader, QtGDrawer* owner);
+    int set_shader(QtGShaderBundle* shader, QtGDrawer* owner);
 
 
 //    virtual QMatrix4x4* MV_Projection() = 0;

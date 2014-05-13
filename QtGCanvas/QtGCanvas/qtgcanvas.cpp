@@ -75,7 +75,7 @@ QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QG
     this->active_drawer = NULL;
 }
 
-GLuint QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
+int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
     GLuint sdi = shader->program()->programId();
     if (this->active_shader != sdi){
         if (this->active_drawer != NULL)
