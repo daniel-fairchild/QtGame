@@ -13,6 +13,8 @@ public:
     size_t frame_number();
     QtgDrawQueue* next_queue();
 
+    void reset();
+
 protected:
     size_t qitem_size;
     int num_queues;

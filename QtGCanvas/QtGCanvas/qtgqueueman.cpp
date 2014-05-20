@@ -36,3 +36,14 @@ QtgDrawQueue *QtGQueueMan::next_queue()
     outp->unlock();
     return outp;
 }
+
+void QtGQueueMan::reset()
+{
+    for (int i = 0; i < this->num_queues; i++){
+        this->queues[i]->lock();
+    }
+    this->frame_no = 0;
+    for (int i = 0; i < this->num_queues; i++){
+        this->queues[i]->unlock();
+    }
+}

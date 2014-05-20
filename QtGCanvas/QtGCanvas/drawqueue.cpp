@@ -24,10 +24,10 @@ void QtgDrawQueue::lock()
 {
     if (!this->mutex.tryLock()){
         qDebug() << "Drawqueue lock contention!";
+        this->mutex.lock();
     }
 }
 void QtgDrawQueue::unlock()
-
 {
     this->mutex.unlock();
 }
