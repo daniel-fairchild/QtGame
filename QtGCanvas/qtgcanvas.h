@@ -1,11 +1,12 @@
 #ifndef QTGCANVAS_H
 #define QTGCANVAS_H
 
-
+#include <QWindow>
 #include <QtOpenGL/QGLWidget>
 #include <QVector>
 #include <QtOpenGL/QGLShaderProgram>
 #include <QtOpenGL/QGLFunctions>
+#include <QTimer>
 
 #include "drawqueue.h"
 #include "qtgfxsource.h"
@@ -54,7 +55,7 @@ private:
 
 
 protected:
-
+    QTimer timer;
 
 
 };

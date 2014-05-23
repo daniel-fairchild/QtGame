@@ -45,12 +45,12 @@
 //}
 
 void QtGCanvas::keyPressEvent(QKeyEvent *e){
-//    _kb_read(e->key(), 0, 255, 255, &kbd);
-//    if(e->key() == Qt::Key_Space)
-//        kbd.buttons |= B_A;
+    //    _kb_read(e->key(), 0, 255, 255, &kbd);
+    //    if(e->key() == Qt::Key_Space)
+    //        kbd.buttons |= B_A;
 
-//    if(e->key() == Qt::Key_Shift)
-//        kbd.buttons |= B_B;
+    //    if(e->key() == Qt::Key_Shift)
+    //        kbd.buttons |= B_B;
     if(e->key() == Qt::Key_Escape){
         this->game->quit();
         this->close();
@@ -59,11 +59,11 @@ void QtGCanvas::keyPressEvent(QKeyEvent *e){
 }
 
 void QtGCanvas::keyReleaseEvent(QKeyEvent *e){
-//    _kb_read(e->key(), 128, 0, 128, &kbd);
-//    if(e->key() == Qt::Key_Space)
-//        kbd.buttons &= ~B_A;
+    //    _kb_read(e->key(), 128, 0, 128, &kbd);
+    //    if(e->key() == Qt::Key_Space)
+    //        kbd.buttons &= ~B_A;
 
-//    if(e->key() == Qt::Key_Shift)
+    //    if(e->key() == Qt::Key_Shift)
     //        kbd.buttons &= ~B_B;
 }
 
@@ -73,6 +73,10 @@ QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QG
     this->game = agame;
     this->active_shader = 0xDEADBEEF;
     this->active_drawer = NULL;
+
+    connect(&timer, SIGNAL(timeout()), this, SLOT(updateGL()));
+    timer.setInterval(0);
+    timer.start();
 }
 
 int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
@@ -89,10 +93,10 @@ int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
         //        this->glUseProgram(sdi);
 
         glUseProgram(sdi);
-//        qDebug() << "switched shader to: " << sdi;
-//        if (!shader->program()->bind()){
-//            qDebug() << "program binding error: " << shader->program()->log();
-//        }
+        //        qDebug() << "switched shader to: " << sdi;
+        //        if (!shader->program()->bind()){
+        //            qDebug() << "program binding error: " << shader->program()->log();
+        //        }
         return outp;
     }
     return -1;
