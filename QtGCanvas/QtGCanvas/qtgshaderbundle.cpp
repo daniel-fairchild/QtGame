@@ -29,20 +29,16 @@ static inline QString _readfile(const char* fname){
 
 static inline bool _shader_add(const char* fname,
                                QGLShader::ShaderTypeBit type,
-                               QGLShaderProgram* prog,
-                               QGLContext* ctx){
-    //    QGLShader sh(type, ctx);
-    //    if (!sh.compileSourceCode(_readfile(fname))){
-    //        qDebug() << "shader compile error: "<< fname << sh.log();
-    //        return false;
-    //    }
+                               QGLShaderProgram* prog){
 
-    //    if (!prog->addShader(&sh)){
-    //        qDebug() << "error adding shader: "<< fname << prog->log();
-    //        return false;
-    //    }
 
-    if (!prog->addShaderFromSourceCode(type, _readfile(fname))){
+#ifdef GL_ES_VERSION_2_0
+    QString shdsrc("#version 100\n\nprecision highp float;");
+#else
+    QString shdsrc("#version 120\n");
+#endif
+    shdsrc.append(_readfile(fname));
+    if (!prog->addShaderFromSourceCode(type, shdsrc)){
         qDebug() << "shader compile error: "<< fname << prog->log();
         return false;
     }
@@ -60,14 +56,14 @@ bool QtGShaderBundle::compile(QGLContext* context){
 
     this->prog = new QGLShaderProgram(context);
 
-    if (!_shader_add(vertexfn, QGLShader::Vertex, this->prog, context))
+    if (!_shader_add(vertexfn, QGLShader::Vertex, this->prog))
         return false;
 
     if (geometryfn != NULL){
-        if (!_shader_add(geometryfn, QGLShader::Geometry, this->prog, context))
+        if (!_shader_add(geometryfn, QGLShader::Geometry, this->prog))
             return false;
     }
-    if (!_shader_add(fragmentfn, QGLShader::Fragment, this->prog, context))
+    if (!_shader_add(fragmentfn, QGLShader::Fragment, this->prog))
         return false;
 
     if (!this->prog->link()){
