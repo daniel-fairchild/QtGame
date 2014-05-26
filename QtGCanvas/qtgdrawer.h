@@ -12,7 +12,7 @@
 
 typedef struct
 {
-    QVector3D position;
+    QVector2D position;
     QVector2D texCoord;
 } VertexData;
 
