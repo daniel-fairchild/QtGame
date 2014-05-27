@@ -13,32 +13,26 @@
 #include "qtgshaderbundle.h"
 #include "qtgqueueman.h"
 
-class QtGCanvas : public QGLWidget, public QGLFunctions
+#include "gcanvas.h"
+
+class QtGCanvas : public GCanvas, public QGLWidget, public QGLFunctions
 {
 
 public:
-    QtGCanvas(QtGfxSource* game, QGLFormat format, QWidget* parent = 0);
+    QtGCanvas(QtGfxSource* game, QGLFormat* format = 0, QWidget* parent = 0);
     int set_shader(QtGShaderBundle* shader, QtGDrawer* owner);
 
-    virtual void reset() = 0;
-
+    QVector3D rotationAxis;
+    QQuaternion rotation;
 
 
 protected:
-    virtual void gRender() = 0;
-    virtual void _reset() = 0;
-
-
     QtGfxSource* gfx_src;
 
     GLuint active_shader;
     QtGDrawer* active_drawer;
 
     QtGQueueMan* queman;
-    QtGfxSource* game;
-
-    QQuaternion rotation;
-    QVector3D rotationAxis;
 
     void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
@@ -51,16 +45,10 @@ protected:
     QVector2D mousePressPosition;
     qreal angularSpeed;
 
-
-
-
 protected:
-    bool should_reset;
-    bool should_exit;
-    int last_resize_frame;
-
     void paintGL();
 
+    int last_resize_frame;
     QTimer timer;
 };
 

@@ -1,50 +1,10 @@
-
-
-#include "../qtgcanvas.h"
 #include <QDebug>
 #include <QFile>
 #include <QMouseEvent>
 
 #include "../qtgdrawer.h"
+#include "../qtgcanvas.h"
 
-
-//QtGCanvas::QtGCanvas(size_t dritmsize, const QGLFormat& format, QWidget* parent)
-//    : QGLWidget(format, parent)
-//{
-
-////    this->shaders = new QVector<ShaderBundle*>(10);
-////    for (int i = 0; i < NUM_DQ; i++)
-////        this->dqueues[i].set_draw_item_size(dritmsize);
-
-//    this->frameno = 0;
-//    this->current_shader_name = -1;
-//}
-
-//static inline void _kb_read(int t, uint8 jmin, uint8 trig, uint8 jmax, ctrl_frame_t* kbd)
-//{
-//    switch (t) {
-//    case Qt::Key_Up:
-//        kbd->joyx = jmax;
-//        break;
-//    case Qt::Key_Down:
-//        kbd->joyx = jmin;
-//        break;
-//    case Qt::Key_Left:
-//        kbd->joyy = jmax;
-//        break;
-//    case Qt::Key_Right:
-//        kbd->joyy = jmin;
-//        break;
-//    case Qt::Key_Q:
-//        kbd->ltrig = trig;
-//        break;
-//    case Qt::Key_W:
-//        kbd->rtrig = trig;
-//        break;
-//    default:
-//        break;
-//    }
-//}
 
 void QtGCanvas::keyPressEvent(QKeyEvent *e){
     //    _kb_read(e->key(), 0, 255, 255, &kbd);
@@ -74,19 +34,28 @@ void QtGCanvas::paintGL(){
         this->_reset();
 
     if (this->should_exit){
-        this->game->quit();
+        this->gfx_src->quit();
         this->close();
         return;
     }
-
     gRender();
 }
 
-
-
-QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QGLWidget(format, parent)
+QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat *format, QWidget *parent) : QGLWidget(parent)
 {
-    this->game = agame;
+    if (format == NULL){
+        QGLFormat glFormat;
+        glFormat.setDoubleBuffer(true);
+        glFormat.setSwapInterval(1);
+        glFormat.setSampleBuffers(false);
+        this->setFormat(glFormat);
+    }
+    else {
+        const QGLFormat tf = *format;
+        this->setFormat(tf);
+    }
+
+    this->gfx_src = agame;
     this->active_shader = 0xDEADBEEF;
     this->active_drawer = NULL;
 
