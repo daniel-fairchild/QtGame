@@ -1,7 +1,7 @@
 #include "../qtgshaderbundle.h"
 #include <locale.h>
 
-#include <Qfile>
+#include <QtCore/QFile>
 #include <QGLShader>
 
 QtGShaderBundle::QtGShaderBundle(const char *fragmentfn, const char *vertexfn, const char *geometryfn){
