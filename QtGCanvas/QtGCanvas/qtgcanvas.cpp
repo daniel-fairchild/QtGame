@@ -1,3 +1,5 @@
+
+
 #include "../qtgcanvas.h"
 #include <QDebug>
 #include <QFile>
@@ -52,8 +54,7 @@ void QtGCanvas::keyPressEvent(QKeyEvent *e){
     //    if(e->key() == Qt::Key_Shift)
     //        kbd.buttons |= B_B;
     if(e->key() == Qt::Key_Escape){
-        this->game->quit();
-        this->close();
+        this->should_exit = true;
     }
 
 }
@@ -67,6 +68,21 @@ void QtGCanvas::keyReleaseEvent(QKeyEvent *e){
     //        kbd.buttons &= ~B_B;
 }
 
+void QtGCanvas::paintGL(){
+
+    if (this->should_reset)
+        this->_reset();
+
+    if (this->should_exit){
+        this->game->quit();
+        this->close();
+        return;
+    }
+
+    gRender();
+}
+
+
 
 QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QGLWidget(format, parent)
 {
@@ -77,6 +93,9 @@ QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat format, QWidget *parent) : QG
     connect(&timer, SIGNAL(timeout()), this, SLOT(updateGL()));
     timer.setInterval(0);
     timer.start();
+
+    this->should_reset = false;
+    this->should_exit = false;
 }
 
 int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){

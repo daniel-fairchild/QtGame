@@ -1,0 +1,4 @@
+#ifndef QTGIMPRINTER_H
+#define QTGIMPRINTER_H
+
+#endif // QTGIMPRINTER_H

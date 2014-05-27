@@ -1,7 +1,7 @@
 #ifndef QTGCANVAS_H
 #define QTGCANVAS_H
 
-#include <QWindow>
+//#include <QWindow>
 #include <QtOpenGL/QGLWidget>
 #include <QVector>
 #include <QtOpenGL/QGLShaderProgram>
@@ -20,11 +20,15 @@ public:
     QtGCanvas(QtGfxSource* game, QGLFormat format, QWidget* parent = 0);
     int set_shader(QtGShaderBundle* shader, QtGDrawer* owner);
 
+    virtual void reset() = 0;
 
-//    virtual QMatrix4x4* MV_Projection() = 0;
-    QQuaternion rotation;
+
 
 protected:
+    virtual void gRender() = 0;
+    virtual void _reset() = 0;
+
+
     QtGfxSource* gfx_src;
 
     GLuint active_shader;
@@ -33,9 +37,8 @@ protected:
     QtGQueueMan* queman;
     QtGfxSource* game;
 
-
+    QQuaternion rotation;
     QVector3D rotationAxis;
-
 
     void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
@@ -49,15 +52,16 @@ protected:
     qreal angularSpeed;
 
 
-private:
-
-
 
 
 protected:
+    bool should_reset;
+    bool should_exit;
+    int last_resize_frame;
+
+    void paintGL();
+
     QTimer timer;
-
-
 };
 
 #endif // QTGCANVAS_H

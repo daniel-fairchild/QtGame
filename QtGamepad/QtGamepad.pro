@@ -16,3 +16,17 @@ CONFIG += staticlib
 SOURCES += qtgamepad.cpp
 
 HEADERS += qtgamepad.h 
+
+macx {
+    LIBS += -L/opt/local/lib/
+    INCLUDEPATH +=/opt/local/include/
+    LIBS += -L../QtGame/QtGamepad -lQtGamepad
+    LIBS += -L../QtGame/QtGCanvas -lQtGCanvas
+    LIBS+= -lSDL
+}
+win32 {
+    LIBS += -L$$PWD/../../SDL-1.2.15/lib/
+    LIBS += -L..\QtGame\QtGCanvas\QtGCanvas -lQtGCanvas
+    LIBS+= -lSDL
+    INCLUDEPATH +=$$PWD/../../SDL-1.2.15/include/
+}
