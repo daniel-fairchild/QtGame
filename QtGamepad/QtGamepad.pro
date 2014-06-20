@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= core gui
+QT       -= gui
 
 TARGET = QtGamepad
 TEMPLATE = lib
@@ -13,20 +13,20 @@ CONFIG += staticlib
 
 #DEFINES += QTGAMEPAD_LIBRARY
 
-SOURCES += qtgamepad.cpp
+SOURCES += qtgamepad.cpp \
+    qtctrlcollection.cpp
 
-HEADERS += qtgamepad.h 
+HEADERS += qtgamepad.h \ 
+    qtctrlcollection.h \
+    QtCtrlTypes.h
 
 macx {
-    LIBS += -L/opt/local/lib/
     INCLUDEPATH +=/opt/local/include/
-    LIBS += -L../QtGame/QtGamepad -lQtGamepad
-    LIBS += -L../QtGame/QtGCanvas -lQtGCanvas
-    LIBS+= -lSDL
+#    LIBS += -L/opt/local/lib/ -lSDL.a
+    LIBS += -l/opt/local/lib//libSDL.a
 }
+
 win32 {
-    LIBS += -L$$PWD/../../SDL-1.2.15/lib/
-    LIBS += -L..\QtGame\QtGCanvas\QtGCanvas -lQtGCanvas
-    LIBS+= -lSDL
     INCLUDEPATH +=$$PWD/../../SDL-1.2.15/include/
+    LIBS += -L$$PWD/../../SDL-1.2.15/lib/ -lSDL
 }
