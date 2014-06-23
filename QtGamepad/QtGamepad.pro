@@ -14,11 +14,15 @@ CONFIG += staticlib
 #DEFINES += QTGAMEPAD_LIBRARY
 
 SOURCES += qtgamepad.cpp \
-    qtctrlcollection.cpp
+    qtctrlcollection.cpp \
+    SDL/gamepad.cpp \
+    SDL/ctrlcollection.cpp
 
 HEADERS += qtgamepad.h \ 
     qtctrlcollection.h \
-    QtCtrlTypes.h
+    ctrl_types.h \
+    SDL/gamepad.h \
+    SDL/ctrlcollection.h
 
 macx {
     INCLUDEPATH +=/opt/local/include/
