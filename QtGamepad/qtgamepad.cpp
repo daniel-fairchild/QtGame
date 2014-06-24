@@ -4,6 +4,8 @@
 
 #include <limits.h>
 
+
+
 /*
 #ifdef _WIN64
 //define something for Windows (64-bit)
@@ -31,6 +33,9 @@
 #endif
 */
 
+
+#define AXIS2BTN_THRSHLD 16
+
 QtGamepad::QtGamepad(size_t num_mappings)
 {
     this->map = (gp_map_col_t*) calloc(1, sizeof(gp_map_col_t*) + sizeof(gp_mapping_t)* num_mappings);
@@ -40,13 +45,15 @@ QtGamepad::QtGamepad(size_t num_mappings)
 
 #define INT_SIGN_DIFF(a, b) (a & 1<<(WORD_BIT-1)) != (b & 1<<(WORD_BIT-1))
 
-static inline void _btn2btn(gp_mapping_t* mapping, int* output, size_t timestamp, int btnval){
-    if (INT_SIGN_DIFF(btnval, mapping->value)){
-        *output = (timestamp - abs(mapping->value)) * ~btnval;
-        mapping->value = btnval;
+static inline void _2btn(gp_mapping_t* mapping, int* output, size_t timestamp, int btnval){
+    if (!btnval){
+        *output = mapping->value ? timestamp - mapping->value : 0;
+        mapping->value = 0;
     }
-    else
-        *output = 0;
+    else {
+        mapping->value = mapping->value ? mapping->value : timestamp -1;
+        *output = -(timestamp - mapping->value);
+    }
 }
 
 static inline void _btn2axis(gp_mapping_t* mapping, int* output, size_t timestamp, uint8_t btnval){
@@ -59,17 +66,23 @@ static inline void _axis2axis(gp_mapping_t* mapping, int* output, size_t timesta
 }
 
 
-void QtGamepad::update(size_t timestamp, int *outvals)
+void QtGamepad::read_mappings(size_t timestamp, int *outvals)
 {
+//    for (int i= 0; i < this->numButtons(); i++){
+//        int tmp = this->readButton(i);
+//        if (tmp)
+//            qDebug() << i << ": " << tmp;
+//    }
+
     for (int i = 0; i < this->map->length; i++){
         switch((this->map->bindings+i)->from_type){
         {case CMAP_BUTTON:
-                int btnvalue = this->readButton(i);
-                btnvalue = (btnvalue<<1)-1;
+                int btnvalue = this->readButton((this->map->bindings+i)->src);
+//                btnvalue = (btnvalue<<1)-1;
 
                 switch ((this->map->bindings+i)->to_type){
                 case CMAP_BUTTON:
-                    _btn2btn(this->map->bindings+i, outvals+i, timestamp, btnvalue);
+                    _2btn(this->map->bindings+i, outvals+i, timestamp, btnvalue);
                     break;
                 case CMAP_AXIS:
                     _btn2axis(this->map->bindings+i, outvals+i, timestamp, btnvalue);
@@ -92,6 +105,12 @@ void QtGamepad::update(size_t timestamp, int *outvals)
             break;
         }
     }
+}
+
+void QtGamepad::reset()
+{
+    for (int i = 0; i < this->map->length; i++)
+        (this->map->bindings+i)->value = 0;
 }
 
 void QtGamepad::bind(CMAP_E from_type, CMAP_E to_type, unsigned char from, unsigned char to)

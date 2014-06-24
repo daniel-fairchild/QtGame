@@ -14,10 +14,13 @@ public:
     // QtCtrlCollection interface
 public:
     int numGamepads();
+    QtGamepad* gamepad(int index);
+    void probe_hardware();
 
 
 private:
     QtGamepad* gamepads[17];
+
 };
 
 #endif // QTSDLCTRLCOLLECTION_H

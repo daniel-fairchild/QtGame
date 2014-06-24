@@ -6,19 +6,22 @@
 class QtCtrlCollection
 {
 public:
+    static QtCtrlCollection* factory(int num_mappings);
+
     QtCtrlCollection();
-    QtCtrlCollection(int num_mappings);
+//    QtCtrlCollection(int num_mappings);
 
-    int numGamepads();
+    virtual int numGamepads() = 0;
+    virtual QtGamepad* gamepad(int index) = 0;
 
-    /*    bool assign(QtGamepad* gp);
-    bool release(QtGamepad* gp);*/
+    /**
+     * @brief update
+     */
+    virtual void probe_hardware() = 0;
 
 protected:
     int num_mappings;
 
-private:
-    QtCtrlCollection* actual;
 };
 
 #endif // QTCTRLCOLLECTION_H
