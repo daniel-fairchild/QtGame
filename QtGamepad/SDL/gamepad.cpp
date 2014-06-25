@@ -1,13 +1,12 @@
 #include "gamepad.h"
 
-
 char* SDL_NAMES[] = {
     "PLAYSTATION(R)3 Controller",
     "Wiimote",
     "Wireless 360 Controller"
 };
 
-e_input SDLname2enum[] ={
+e_input SDLname2enum[] = {
     SIXAXIS,
     WIIMOTE,
     X360
@@ -25,7 +24,9 @@ int QtSDLGamePad::readButton(int btnindex)
 
 int QtSDLGamePad::readAxis(int axisindex)
 {
-    return SDL_JoystickGetAxis(this->device, axisindex);
+    int tmp = SDL_JoystickGetAxis(this->device, axisindex);
+    tmp /= 256;
+    return  tmp;
 }
 
 

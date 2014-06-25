@@ -62,9 +62,6 @@ static inline void _btn2axis(gp_mapping_t* mapping, int* output, size_t timestam
 static inline void _axis2btn(gp_mapping_t* mapping, int* output, size_t timestamp){
 }
 
-static inline void _axis2axis(gp_mapping_t* mapping, int* output, size_t timestamp){
-}
-
 
 void QtGamepad::read_mappings(size_t timestamp, int *outvals)
 {
@@ -97,7 +94,7 @@ void QtGamepad::read_mappings(size_t timestamp, int *outvals)
                 _axis2btn(this->map->bindings+i, outvals+i, timestamp);
                 break;
             case CMAP_AXIS:
-                _axis2axis(this->map->bindings+i, outvals+i, timestamp);
+                *(outvals+i) = this->readAxis((this->map->bindings+i)->src);
                 break;
             default:
                 break;

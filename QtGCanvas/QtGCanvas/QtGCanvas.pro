@@ -17,7 +17,8 @@ SOURCES += \
     qtgcanvas.cpp \
     drawqueue.cpp \
     qtgshaderbundle.cpp \
-    qtgqueueman.cpp
+    qtgqueueman.cpp \
+    qtgdrawboilerplate.cpp
 
 HEADERS += \
     ../qtgcanvas.h \
@@ -25,7 +26,8 @@ HEADERS += \
     ../qtgdrawer.h \
     ../draw_base_t.h \
     ../qtgshaderbundle.h \
-    ../qtgqueueman.h
+    ../qtgqueueman.h \
+    ../qtgdrawboilerplate.h \
 
 
 TARGET = ../QtGCanvas
