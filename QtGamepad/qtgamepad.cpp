@@ -56,7 +56,7 @@ static inline void _2btn(gp_mapping_t* mapping, int* output, size_t timestamp, i
     }
 }
 
-static inline void _btn2axis(gp_mapping_t* mapping, int* output, size_t timestamp, uint8_t btnval){
+static inline void _btn2axis(gp_mapping_t* mapping, int* output, size_t timestamp, int btnval){
 }
 
 static inline void _axis2btn(gp_mapping_t* mapping, int* output, size_t timestamp){
@@ -65,11 +65,11 @@ static inline void _axis2btn(gp_mapping_t* mapping, int* output, size_t timestam
 
 void QtGamepad::read_mappings(size_t timestamp, int *outvals)
 {
-//    for (int i= 0; i < this->numButtons(); i++){
-//        int tmp = this->readButton(i);
-//        if (tmp)
-//            qDebug() << i << ": " << tmp;
-//    }
+    for (int i= 0; i < this->numButtons(); i++){
+        int tmp = this->readButton(i);
+        if (tmp)
+            qDebug() << i << ": " << tmp;
+    }
 
     for (int i = 0; i < this->map->length; i++){
         switch((this->map->bindings+i)->from_type){

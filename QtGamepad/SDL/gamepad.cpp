@@ -1,4 +1,5 @@
 #include "gamepad.h"
+#include <qdebug.h>
 
 char* SDL_NAMES[] = {
     "PLAYSTATION(R)3 Controller",
@@ -15,6 +16,7 @@ e_input SDLname2enum[] = {
 QtSDLGamePad::QtSDLGamePad(size_t num_mappings, int device_index) : QtGamepad(num_mappings)
 {
     this->device = SDL_JoystickOpen(device_index);
+    qDebug() << SDL_JoystickName(this->device_index);
 }
 
 int QtSDLGamePad::readButton(int btnindex)
