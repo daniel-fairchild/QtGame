@@ -22,7 +22,12 @@ HEADERS += qtgamepad.h \
     qtctrlcollection.h \
     ctrl_types.h \
     SDL/gamepad.h \
-    SDL/ctrlcollection.h
+    SDL/ctrlcollection.h \
+\
+    IOHIDLib/note.h \
+\
+    directInput/placeholder.h
+
 
 macx {
     INCLUDEPATH +=/opt/local/include/
