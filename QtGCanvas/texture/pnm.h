@@ -27,13 +27,15 @@ typedef struct {
 	void *pixels;
 } pnm_img;
 
-enum pnm_image_type {
+typedef enum {
+    UNDEFINED_PIXMAP = 0,
 	ASCII_BITMAP = 1,
 	ASCII_GREYMAP = 2,
 	ASCII_PIXMAP = 3,
 	BINARY_BITMAP = 4,
 	BINARY_GREYMAP = 5,
-	BINARY_PIXMAP = 6};
+    BINARY_PIXMAP = 6
+} pnm_image_type;
 
 typedef struct{
 	void* cur_pix;
@@ -43,16 +45,51 @@ typedef struct{
 	int pixwidth;
 } cursor;
 
+/**
+ * @brief pnm_set_pixel
+ * @param img
+ * @param x
+ * @param y
+ * @param pixel
+ */
 void pnm_set_pixel(pnm_img *img, int x, int y, void* pixel);
 
+/**
+ * @brief pnm_get_pixel
+ * @param img
+ * @param x
+ * @param y
+ * @return
+ */
 void* pnm_get_pixel(pnm_img *img, int x, int y);
 
+/**
+ * @brief pnm_create
+ * @param width
+ * @param height
+ * @param p
+ * @return
+ */
 pnm_img *pnm_create(int width, int height, int p);
 
+/**
+ * @brief pnm_read
+ * @param file_name
+ * @return
+ */
 pnm_img *pnm_read(const char file_name[]);
 
+/**
+ * @brief pnm_write
+ * @param img
+ * @param file_name
+ */
 void pnm_write(pnm_img *img, const char file_name[]);
 
+/**
+ * @brief pnm_destroy
+ * @param img
+ */
 void pnm_destroy(pnm_img *img);
 
 /*

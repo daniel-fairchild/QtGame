@@ -20,7 +20,7 @@ SOURCES += \
     qtgqueueman.cpp \
     qtgdrawboilerplate.cpp \
     ../texture/dtexture.cpp \
-    ../texture/ppm.c
+    ../texture/pnm.c
 
 HEADERS += \
     ../qtgcanvas.h \
@@ -31,7 +31,7 @@ HEADERS += \
     ../qtgqueueman.h \
     ../qtgdrawboilerplate.h \
     ../texture/dtexture.h \
-    ../texture/ppm.h
+    ../texture/pnm.h
 
 
 

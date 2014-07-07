@@ -15,6 +15,7 @@ typedef struct {
 } vbo_locdef_t;
 
 
+
 class QtGDrawBoilerPlate : public QtGDrawer
 {
 public:
