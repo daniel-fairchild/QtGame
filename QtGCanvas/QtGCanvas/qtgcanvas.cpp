@@ -90,6 +90,16 @@ int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
     return -1;
 }
 
+QVector2D QtGCanvas::ortoPixProj(ortoPixProj_t *proj)
+{
+    int scrnw = this->geometry().width();
+    int scrnh = this->geometry().height();
+
+    QVector2D p;
+
+    return p;
+}
+
 void QtGCanvas::mousePressEvent(QMouseEvent *e)
 {
     // Save mouse press position

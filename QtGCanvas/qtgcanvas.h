@@ -15,6 +15,16 @@
 
 #include "gcanvas.h"
 
+
+typedef struct {
+    int pix_width;
+    int pix_height;
+    float coord_width;
+    float coord_height;
+    float world_x;
+    float world_y;
+} ortoPixProj_t;
+
 class QtGCanvas : public GCanvas, public QGLWidget, public QGLFunctions
 {
 
@@ -25,6 +35,8 @@ public:
     QVector3D rotationAxis;
     QQuaternion rotation;
 
+
+    QVector2D ortoPixProj(ortoPixProj_t* proj);
 
 protected:
     QtGfxSource* gfx_src;
