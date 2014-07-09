@@ -8,7 +8,7 @@ QT       += opengl widgets
 
 
 TEMPLATE = lib
-CONFIG += staticlib
+#CONFIG += staticlib
 
 
 # The following keeps the generated files at least somewhat separate 

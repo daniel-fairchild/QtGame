@@ -8,7 +8,8 @@
     error( Could not find the common.pri file! )
 }
 
-CONFIG += staticlib
+#CONFIG += staticlib
+CONFIG += dll
 
 QT += opengl core
 QT -= gui
