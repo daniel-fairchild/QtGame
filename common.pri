@@ -2,13 +2,9 @@
 # INCLUDEPATH += . ..
 WARNINGS += -Wall
 
-
-QT       += widgets opengl
-QT       -= gui
-
-
 TEMPLATE = lib
 CONFIG += staticlib
+#CONFIG += dll
 
 
 # The following keeps the generated files at least somewhat separate 

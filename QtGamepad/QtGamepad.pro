@@ -4,12 +4,13 @@
 #
 #-------------------------------------------------
 
+! include( ../common.pri ) {
+    error( Could not find the common.pri file! )
+}
+
 QT       -= gui
 
 TARGET = QtGamepad
-TEMPLATE = lib
-
-CONFIG += staticlib
 
 #DEFINES += QTGAMEPAD_LIBRARY
 
@@ -31,11 +32,11 @@ HEADERS += qtgamepad.h \
 
 macx {
     INCLUDEPATH +=/opt/local/include/
-#    LIBS += -L/opt/local/lib/ -lSDL.a
-    LIBS += -l/opt/local/lib//libSDL.a
+    LIBS += -L/opt/local/lib/ -lSDL
+#    LIBS += -l/opt/local/lib/libSDL.a
 }
 
 win32 {
-    INCLUDEPATH +=$$PWD/../../SDL-1.2.15/include/
-    LIBS += -L$$PWD/../../SDL-1.2.15/lib/ -lSDL
+    INCLUDEPATH +=$$PWD/../../SDL-1.2.15/include
+    LIBS += -L$$PWD/../../SDL-1.2.15/lib -lSDL
 }

@@ -1,6 +1,6 @@
-#include "../qtgcanvas.h"
 #include <QDebug>
-#include "../qtgdrawer.h"
+#include "qtgcanvas.h"
+#include "qtgdrawer.h"
 
 #define QPARTSIZEBITS 10
 #define PMASK ((1 << QPARTSIZEBITS)-1)

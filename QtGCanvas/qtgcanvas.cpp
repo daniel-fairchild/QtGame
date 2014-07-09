@@ -2,8 +2,8 @@
 #include <QFile>
 #include <QMouseEvent>
 
-#include "../qtgdrawer.h"
-#include "../qtgcanvas.h"
+#include "qtgdrawer.h"
+#include "qtgcanvas.h"
 
 
 void QtGCanvas::keyPressEvent(QKeyEvent *e){
@@ -90,19 +90,16 @@ int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
     return -1;
 }
 
-
-static inline float _suborto(float world, float coord, int scrnpix, int mdlpix){
-
-    // a * (mdlcoord/worldcoord) * scrnpix = mdlpix;
-    //a = mdlpix * worldcoord / (scrnpix * mdlcoord);
-    return (1.0 - ((world - coord) / world))/world;
+static inline float _suborto(float world, int scrnpix, int mdlpix){
+    //        return 2.0* mdlpix / (world * scrnpix);
+    return 2.0* mdlpix / (world * scrnpix);
 }
 
 QVector2D QtGCanvas::ortoPixProj(ortoPixProj_t *proj)
 {
     return QVector2D (
-                _suborto(proj->world_width, proj->coord_width,this->geometry().width(), proj->pix_width),
-                _suborto(proj->world_height, proj->coord_height,this->geometry().height(), proj->pix_height));
+                _suborto(proj->coord_width, this->geometry().width(), proj->pix_width),
+                _suborto(proj->coord_height, this->geometry().height(), proj->pix_height));
 }
 
 void QtGCanvas::mousePressEvent(QMouseEvent *e)

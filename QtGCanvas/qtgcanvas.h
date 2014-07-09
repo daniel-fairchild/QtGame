@@ -21,8 +21,6 @@ typedef struct {
     int pix_height;
     float coord_width;
     float coord_height;
-    float world_width;
-    float world_height;
 } ortoPixProj_t;
 
 class QtGCanvas : public GCanvas, public QGLWidget, public QGLFunctions

@@ -1,4 +1,4 @@
-#include "../qtgdrawboilerplate.h"
+#include "qtgdrawboilerplate.h"
 
 drawers::QtGDrawBoilerPlate::QtGDrawBoilerPlate(){}
 

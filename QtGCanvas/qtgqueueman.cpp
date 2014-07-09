@@ -1,4 +1,4 @@
-#include "../qtgqueueman.h"
+#include "qtgqueueman.h"
 
 QtGQueueMan::QtGQueueMan(size_t qitem_size, int num_queues)
 {

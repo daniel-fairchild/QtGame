@@ -1,4 +1,4 @@
-#include "../qtgshaderbundle.h"
+#include "qtgshaderbundle.h"
 #include <locale.h>
 
 #include <QtCore/QFile>
