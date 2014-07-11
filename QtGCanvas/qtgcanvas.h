@@ -32,9 +32,9 @@ public:
 
     QVector3D rotationAxis;
     QQuaternion rotation;
-
-
     QVector2D ortoPixProj(ortoPixProj_t* proj);
+    int pix_width();
+    int pix_height();
 
 protected:
     QtGfxSource* gfx_src;

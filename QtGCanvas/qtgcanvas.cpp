@@ -98,8 +98,18 @@ static inline float _suborto(float world, int scrnpix, int mdlpix){
 QVector2D QtGCanvas::ortoPixProj(ortoPixProj_t *proj)
 {
     return QVector2D (
-                _suborto(proj->coord_width, this->geometry().width(), proj->pix_width),
-                _suborto(proj->coord_height, this->geometry().height(), proj->pix_height));
+                _suborto(proj->coord_width, this->width(), proj->pix_width),
+                _suborto(proj->coord_height, this->height(), proj->pix_height));
+}
+
+int QtGCanvas::pix_width()
+{
+    return this->width() * devicePixelRatio();
+}
+
+int QtGCanvas::pix_height()
+{
+    return this->height() * devicePixelRatio();
 }
 
 void QtGCanvas::mousePressEvent(QMouseEvent *e)
