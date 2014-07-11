@@ -36,6 +36,8 @@ public:
     int pix_width();
     int pix_height();
 
+    static bool gl_error_test(const char *fname, int line);
+
 protected:
     QtGfxSource* gfx_src;
 

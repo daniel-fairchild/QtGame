@@ -112,6 +112,42 @@ int QtGCanvas::pix_height()
     return this->height() * devicePixelRatio();
 }
 
+bool QtGCanvas::gl_error_test(const char *fname, int line){
+
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR){
+        switch (err) {
+        qDebug() << fname << ":" << line;
+        case GL_NO_ERROR:
+            qDebug() << "GL_NO_ERROR";
+            break;
+        case GL_INVALID_ENUM:
+            qDebug() << "GL_INVALID_ENUM";
+            break;
+        case GL_INVALID_VALUE:
+            qDebug() << "GL_INVALID_VALUE";
+            break;
+        case GL_INVALID_OPERATION:
+            qDebug() << "GL_INVALID_OPERATION";
+            break;
+        case GL_STACK_OVERFLOW:
+            qDebug() << "GL_STACK_OVERFLOW";
+            break;
+        case GL_STACK_UNDERFLOW:
+            qDebug() << "GL_STACK_UNDERFLOW";
+            break;
+        case GL_OUT_OF_MEMORY:
+            qDebug() << "GL_OUT_OF_MEMORY";
+            break;
+        default:
+            break;
+        }
+        return true;
+    }
+    return false;
+}
+
+
 void QtGCanvas::mousePressEvent(QMouseEvent *e)
 {
     // Save mouse press position
