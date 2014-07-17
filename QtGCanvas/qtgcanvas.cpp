@@ -41,6 +41,11 @@ void QtGCanvas::paintGL(){
     gRender();
 }
 
+void QtGCanvas::resizeGL(int w, int h)
+{
+    glViewport(0, 0, (GLint)w, (GLint)h);
+}
+
 QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat *format, QWidget *parent) : QGLWidget(parent)
 {
     if (format == NULL){
@@ -90,17 +95,17 @@ int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
     return -1;
 }
 
-static inline float _suborto(float world, int scrnpix, int mdlpix){
-    //        return 2.0* mdlpix / (world * scrnpix);
-    return 2.0* mdlpix / (world * scrnpix);
-}
+//static inline float _suborto(float world, int scrnpix, int mdlpix){
+//    //        return 2.0* mdlpix / (world * scrnpix);
+//    return 2.0* mdlpix / (world * scrnpix);
+//}
 
-QVector2D QtGCanvas::ortoPixProj(ortoPixProj_t *proj)
-{
-    return QVector2D (
-                _suborto(proj->coord_width, this->width(), proj->pix_width),
-                _suborto(proj->coord_height, this->height(), proj->pix_height));
-}
+//QVector2D QtGCanvas::ortoPixProj(ortoPixProj_t *proj)
+//{
+//    return QVector2D (
+//                _suborto(proj->coord_width, this->pix_width(), proj->pix_width),
+//                _suborto(proj->coord_height, this->pix_height(), proj->pix_height));
+//}
 
 int QtGCanvas::pix_width()
 {

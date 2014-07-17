@@ -14,16 +14,10 @@
 #include "qtgqueueman.h"
 
 #include "gcanvas.h"
+#include "ortoprojector.h"
 
 
-typedef struct {
-    int pix_width;
-    int pix_height;
-    float coord_width;
-    float coord_height;
-} ortoPixProj_t;
-
-class QtGCanvas : public GCanvas, public QGLWidget, public QGLFunctions
+class QtGCanvas : public GCanvas, public QGLWidget, public QGLFunctions, public  OrtoProjector
 {
 
 public:
@@ -32,7 +26,7 @@ public:
 
     QVector3D rotationAxis;
     QQuaternion rotation;
-    QVector2D ortoPixProj(ortoPixProj_t* proj);
+//    QVector2D ortoPixProj(ortoPixProj_t* proj);
     int pix_width();
     int pix_height();
 
@@ -59,6 +53,7 @@ protected:
 
 protected:
     void paintGL();
+    void resizeGL(int w, int h);
 
     int last_resize_frame;
     QTimer timer;

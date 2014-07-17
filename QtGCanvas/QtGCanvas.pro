@@ -26,7 +26,10 @@ SOURCES += \
     qtgqueueman.cpp \
     qtgdrawboilerplate.cpp \
     texture/dtexture.cpp \
-    texture/pnm.c
+    texture/pnm.c \
+    renderbuffer.cpp \
+    ortoprojector.cpp \
+    dgl_vbo.cpp
 
 HEADERS += \
     qtgcanvas.h \
@@ -37,6 +40,9 @@ HEADERS += \
     qtgqueueman.h \
     qtgdrawboilerplate.h \
     texture/dtexture.h \
-    texture/pnm.h
+    texture/pnm.h \
+    renderbuffer.h \
+    ortoprojector.h \
+    dgl_vbo.h
 
 TARGET = QtGCanvas
