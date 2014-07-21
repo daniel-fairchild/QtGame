@@ -5,36 +5,45 @@
 #include <QtOpenGL/QGLFunctions>
 
 typedef struct {
-    void* data;
+    void* attr_data;
+    GLushort* indx_data;
+    void* indx_offset;
+    GLushort indx_data_skip;
+} vbo_ref_t;
+
+typedef struct {
+//    void* data;
+//    GLuint* indexes;
+
     size_t num_data;
-    GLuint* indexes;
     size_t num_indexes;
     size_t data_stride;
-} vbo_ref_t;
+} vbo_def_t;
 
 class DGL_VBO
 {
 public:
     DGL_VBO();
 
-    DGL_VBO(size_t indx_size, size_t atrr_size, size_t num_defs);
+    DGL_VBO(size_t indx_size, size_t atrr_size);
+    ~DGL_VBO();
 
-    size_t append(vbo_ref_t* vref);
+    vbo_ref_t reserve(vbo_def_t* vref);
 
-    void switch_part(int partref);
+    bool flush2gpu();
+    void bind();
 
-    bool actualize();
-
-    bool deallocate();
-
+    void _shared_init(size_t atrr_size, size_t indx_size);
 private:
+    GLuint _vboIds[2];
     unsigned char* _attr_buf;
-    unsigned char* _indx_buf;
+    size_t _used_attr;
 
-    size_t _attr_offset;
-    size_t _indx_offset;
-    vbo_ref_t* _ref_buf;
-    size_t _num_parts;
+    GLushort* _indx_buf;
+    size_t _used_indx;
+
+    size_t req_indx;
+    size_t req_attr;
 };
 
 #endif // DGL_VBO_H

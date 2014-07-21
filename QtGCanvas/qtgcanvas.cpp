@@ -112,8 +112,7 @@ int QtGCanvas::pix_width()
     return this->width() * devicePixelRatio();
 }
 
-int QtGCanvas::pix_height()
-{
+int QtGCanvas::pix_height(){
     return this->height() * devicePixelRatio();
 }
 
@@ -151,7 +150,6 @@ bool QtGCanvas::gl_error_test(const char *fname, int line){
     }
     return false;
 }
-
 
 void QtGCanvas::mousePressEvent(QMouseEvent *e)
 {

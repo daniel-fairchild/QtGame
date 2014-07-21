@@ -15,6 +15,7 @@
 
 #include "gcanvas.h"
 #include "ortoprojector.h"
+#include "dgl_vbo.h"
 
 
 class QtGCanvas : public GCanvas, public QGLWidget, public QGLFunctions, public  OrtoProjector
@@ -26,11 +27,12 @@ public:
 
     QVector3D rotationAxis;
     QQuaternion rotation;
-//    QVector2D ortoPixProj(ortoPixProj_t* proj);
+
     int pix_width();
     int pix_height();
 
     static bool gl_error_test(const char *fname, int line);
+
 
 protected:
     QtGfxSource* gfx_src;

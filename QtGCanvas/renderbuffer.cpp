@@ -1,5 +1,8 @@
-#include "renderbuffer.h"
+#include <QApplication>
+#include <QDesktopWidget>
 
+
+#include "renderbuffer.h"
 #include <qdebug.h>
 
 static inline int _next2pow(int input){
@@ -9,6 +12,23 @@ static inline int _next2pow(int input){
     return out;
 }
 
+
+RenderBuffer::RenderBuffer()
+{
+    int swidth = 0, sheight = 0;
+    for (int i = 0; i < QApplication::desktop()->screenCount(); i++){
+        QWidget* tscrn = QApplication::desktop()->screen(i);
+        int twidth = tscrn->devicePixelRatio() * tscrn->width();
+        int theight = tscrn->devicePixelRatio() * tscrn->height();
+        swidth =  twidth > swidth? twidth:swidth;
+        sheight = theight > sheight? theight:sheight;
+    }
+
+    this->height = _next2pow(sheight);
+    this->width = _next2pow(swidth);
+
+    _initFBO();
+}
 
 RenderBuffer::RenderBuffer(int aheight, int awidth)
 {
@@ -40,11 +60,6 @@ GLuint RenderBuffer::texture_ref()
 
 void RenderBuffer::_initFBO()
 {
-    GLint maxRenderbufferSize;
-    glGetIntegerv(GL_MAX_RENDERBUFFER_SIZE, &maxRenderbufferSize);
-
-    qDebug()  << "GL_MAX_RENDERBUFFER_SIZE: " << maxRenderbufferSize;
-
     glGenFramebuffers(1, &fbo);
     glGenRenderbuffers(1, &depth_rb);
     glGenTextures(1, &color_tex);

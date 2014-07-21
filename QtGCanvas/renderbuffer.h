@@ -8,6 +8,8 @@
 class RenderBuffer : public OrtoProjector
 {
 public:
+
+    RenderBuffer();
     RenderBuffer(int aheight, int awidth);
 
     int pix_width();
