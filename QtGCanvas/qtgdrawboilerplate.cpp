@@ -2,11 +2,8 @@
 
 drawers::QtGDrawBoilerPlate::QtGDrawBoilerPlate(){}
 
-void drawers::QtGDrawBoilerPlate::_enable_vbo()
+void drawers::QtGDrawBoilerPlate::_shared_enable_attrs()
 {
-    canvas->glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
-    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
-
     quintptr offset = 0;
 
     for (int i = 0; i < num_vbo_attribs; i++){
@@ -15,6 +12,20 @@ void drawers::QtGDrawBoilerPlate::_enable_vbo()
         canvas->glVertexAttribPointer(tld->a_loc, tld->asize, tld->atype, GL_FALSE, this->instance_stride, (const void *)offset);
         offset+= tld->cstep;
     }
+}
+
+void drawers::QtGDrawBoilerPlate::_enable_vbo()
+{
+    canvas->glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
+    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
+
+    _shared_enable_attrs();
+}
+
+void drawers::QtGDrawBoilerPlate::_enable_vbo(DGL_VBO *shared_vbo)
+{
+    shared_vbo->bind();
+    _shared_enable_attrs();
 }
 
 
@@ -57,7 +68,6 @@ bool drawers::QtGDrawBoilerPlate::init()
         instance_stride+= (this->vbo_attribs+i)->cstep;
     }
     _enable_vbo();
-
     _vbo_data();
 
     GLenum err = glGetError();
@@ -70,8 +80,8 @@ bool drawers::QtGDrawBoilerPlate::init()
 
 void drawers::QtGDrawBoilerPlate::deactivate()
 {
-    canvas->glBindBuffer(GL_ARRAY_BUFFER, 0);
-    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//    canvas->glBindBuffer(GL_ARRAY_BUFFER, 0);
+//    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     for(int i =0; i < this->num_vbo_attribs; i++){
         canvas->glDisableVertexAttribArray((vbo_attribs+i)->a_loc);
     }
