@@ -17,6 +17,11 @@ void QtGCanvas::keyPressEvent(QKeyEvent *e){
         this->should_exit = true;
     }
 
+    if(e->key() == Qt::Key_R){
+        this->rotationAxis = QVector3D(0,0,0);
+        this->angularSpeed = 0;
+    }
+
 }
 
 void QtGCanvas::keyReleaseEvent(QKeyEvent *e){

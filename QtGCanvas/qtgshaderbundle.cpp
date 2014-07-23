@@ -46,6 +46,11 @@ static inline bool _shader_add(const char* fname,
 }
 
 bool QtGShaderBundle::compile(QGLContext* context){
+
+
+    if (this->prog)
+        return true; //assume already compiled
+
     // Override system locale until shaders are compiled
     setlocale(LC_NUMERIC, "C");
 

@@ -19,6 +19,7 @@ void DGL_VBO::_shared_init(size_t atrr_size, size_t indx_size)
 
     // gl initialization
     glGenBuffers(2, _vboIds);
+    this->bind();
 }
 
 DGL_VBO::DGL_VBO()
@@ -36,7 +37,6 @@ DGL_VBO::~DGL_VBO()
 {
     glDeleteBuffers(2, this->_vboIds);
 }
-
 
 void DGL_VBO::bind()
 {

@@ -15,24 +15,17 @@ typedef struct {
     int a_loc;
 } vbo_locdef_t;
 
-
-
 class QtGDrawBoilerPlate : public QtGDrawer
 {
-public:
-    QtGDrawBoilerPlate();
 
+public:
+    QtGDrawBoilerPlate(QtGCanvas* pb_canvas, QtGShaderBundle* shader);
 
 protected:
-    void _enable_vbo();
+    virtual void _init_vbo_attribs() = 0;
+    virtual void _init_vbo_data() = 0;
+    virtual void _bind_vbo() = 0;
 
-    void _enable_vbo(DGL_VBO* shared_vbo);
-
-    virtual void _vbo_attribs() = 0;
-    virtual void _vbo_data() = 0;
-
-    QtGCanvas* canvas;
-    QtGShaderBundle* shader;
     GLuint vboIds[2];
 
     vbo_locdef_t* vbo_attribs;
@@ -40,6 +33,12 @@ protected:
     size_t instance_stride;
 
     void _shared_enable_attrs();
+
+    QtGShaderBundle* shader;
+
+private:
+    QtGCanvas* _bp_canvas;
+
 
     // QtGDrawer interface
 public:

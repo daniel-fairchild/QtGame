@@ -1,32 +1,24 @@
 #include "qtgdrawboilerplate.h"
 
-drawers::QtGDrawBoilerPlate::QtGDrawBoilerPlate(){}
+namespace drawers {
 
-void drawers::QtGDrawBoilerPlate::_shared_enable_attrs()
-{
-    quintptr offset = 0;
 
-    for (int i = 0; i < num_vbo_attribs; i++){
-        vbo_locdef_t* tld = vbo_attribs+i;
-        canvas->glEnableVertexAttribArray(tld->a_loc);
-        canvas->glVertexAttribPointer(tld->a_loc, tld->asize, tld->atype, GL_FALSE, this->instance_stride, (const void *)offset);
-        offset+= tld->cstep;
-    }
-}
 
-void drawers::QtGDrawBoilerPlate::_enable_vbo()
-{
-    canvas->glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
-    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
 
-    _shared_enable_attrs();
-}
 
-void drawers::QtGDrawBoilerPlate::_enable_vbo(DGL_VBO *shared_vbo)
-{
-    shared_vbo->bind();
-    _shared_enable_attrs();
-}
+//void QtGDrawBoilerPlate::_enable_vbo()
+//{
+//    canvas->glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
+//    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
+
+//    _shared_enable_attrs();
+//}
+
+//void QtGDrawBoilerPlate::_enable_vbo(DGL_VBO *shared_vbo)
+//{
+//    shared_vbo->bind();
+//    _shared_enable_attrs();
+//}
 
 
 static inline char* _gl_err2str(GLenum err){
@@ -52,23 +44,37 @@ static inline char* _gl_err2str(GLenum err){
     }
 }
 
-bool drawers::QtGDrawBoilerPlate::init()
+QtGDrawBoilerPlate::QtGDrawBoilerPlate(QtGCanvas *pb_canvas, QtGShaderBundle *shader){
+    this->_bp_canvas = pb_canvas;
+    this->shader = shader;
+}
+
+void QtGDrawBoilerPlate::_shared_enable_attrs()
 {
-    this->shader->compile(this->canvas->context());
-    this->canvas->set_shader(this->shader, this);
+    quintptr offset = 0;
 
+    for (int i = 0; i < num_vbo_attribs; i++){
+        vbo_locdef_t* tld = vbo_attribs+i;
+        _bp_canvas->glEnableVertexAttribArray(tld->a_loc);
+        _bp_canvas->glVertexAttribPointer(tld->a_loc, tld->asize, tld->atype, GL_FALSE, this->instance_stride, (const void *)offset);
+        offset+= tld->cstep;
+    }
+}
+
+bool QtGDrawBoilerPlate::init()
+{
+    this->_bp_canvas->set_shader(this->shader, this);
     QGLShaderProgram* shdp = this->shader->program();
-    canvas->glGenBuffers(2, vboIds);
 
-    this->_vbo_attribs();
+
+    this->_init_vbo_attribs();
+    this->_init_vbo_data();
 
     instance_stride = 0;
     for(int i = 0; i < this->num_vbo_attribs; i++){
         (this->vbo_attribs+i)->a_loc = shdp->attributeLocation((this->vbo_attribs+i)->aname);
         instance_stride+= (this->vbo_attribs+i)->cstep;
     }
-    _enable_vbo();
-    _vbo_data();
 
     GLenum err = glGetError();
     if (err != GL_NO_ERROR){
@@ -78,12 +84,13 @@ bool drawers::QtGDrawBoilerPlate::init()
     return true;
 }
 
-void drawers::QtGDrawBoilerPlate::deactivate()
+void QtGDrawBoilerPlate::deactivate()
 {
-//    canvas->glBindBuffer(GL_ARRAY_BUFFER, 0);
-//    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    //    canvas->glBindBuffer(GL_ARRAY_BUFFER, 0);
+    //    canvas->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     for(int i =0; i < this->num_vbo_attribs; i++){
-        canvas->glDisableVertexAttribArray((vbo_attribs+i)->a_loc);
+        _bp_canvas->glDisableVertexAttribArray((vbo_attribs+i)->a_loc);
     }
     shader->program()->release();
+}
 }
