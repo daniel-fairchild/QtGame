@@ -2,30 +2,6 @@
 
 namespace drawers {
 
-
-static inline char* _gl_err2str(GLenum err){
-    switch (err) {
-    case GL_INVALID_ENUM:
-        return "An unacceptable value is specified for an enumerated argument. The offending command is ignored and has no other side effect than to set the error flag.";
-        break;
-    case GL_INVALID_VALUE:
-        return "A numeric argument is out of range. The offending command is ignored and has no other side effect than to set the error flag.";
-        break;
-    case GL_INVALID_OPERATION:
-        return "The specified operation is not allowed in the current state. The offending command is ignored and has no other side effect than to set the error flag.";
-        break;
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-        return "The command is trying to render to or read from the framebuffer while the currently bound framebuffer is not framebuffer complete (i.e. the return value from glCheckFramebufferStatus is not GL_FRAMEBUFFER_COMPLETE). The offending command is ignored and has no other side effect than to set the error flag.";
-        break;
-    case GL_OUT_OF_MEMORY:
-        return "There is not enough memory left to execute the command. The state of the GL is undefined, except for the state of the error flags, after this error is recorded.";
-        break;
-    default:
-        return "Unknown GL error!";
-        break;
-    }
-}
-
 QtGDrawBoilerPlate::QtGDrawBoilerPlate(QtGCanvas *pb_canvas, QtGShaderBundle *shader){
     this->_bp_canvas = pb_canvas;
     this->shader = shader;
@@ -55,12 +31,11 @@ bool QtGDrawBoilerPlate::init()
     for(size_t i = 0; i < this->num_vbo_attribs; i++){
         (this->vbo_attribs+i)->a_loc = shdp->attributeLocation((this->vbo_attribs+i)->aname);
         instance_stride+= (this->vbo_attribs+i)->cstep;
-    }
+    }    
+    QtGCanvas::gl_error_test(__FILE__, __LINE__);
 
-    GLenum err = glGetError();
-    if (err != GL_NO_ERROR){
-        qDebug() << "Boilerplate drawer init error: " << _gl_err2str(err);
-        return false;
+    for (int i = 0; i < this->num_vbo_attribs; i ++){
+        qDebug() << this->vbo_attribs[i].aname << ": " << this->vbo_attribs[i].a_loc;
     }
     return true;
 }
