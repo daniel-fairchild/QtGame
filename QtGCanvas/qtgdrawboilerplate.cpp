@@ -53,10 +53,10 @@ bool QtGDrawBoilerPlate::init()
         return false;
     }
 
-
     if (QtGCanvas::gl_error_test(__FILE__, __LINE__)){
         qDebug() << "Boilerplate drawer init error: ";
         return false;
+
     }
     return true;
 }

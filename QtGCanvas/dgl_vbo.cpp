@@ -4,7 +4,7 @@
 #include "../QtGCanvas/qtgcanvas.h"
 
 #define INDXBUFFER (1<<16)*2 //maximum number of refereable indexes with glushort
-#define ATTRBUFFER (1<<16)*128
+#define ATTRBUFFER (1<<16)*128*64
 
 void DGL_VBO::_shared_init(size_t atrr_size, size_t indx_size)
 {
@@ -85,6 +85,8 @@ bool DGL_VBO::flush2gpu()
 {
     this->bind();
 
+    qDebug() << "VBO bytes: " << this->_used_attr;
+    qDebug() << "VBO index bytes: " << this->_used_indx;
     // Transfer vertex data to VBO 0
     glBufferData(GL_ARRAY_BUFFER, this->_used_attr, this->_attr_buf, GL_STATIC_DRAW);
     // Transfer index data to VBO 1

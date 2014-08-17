@@ -125,8 +125,8 @@ bool QtGCanvas::gl_error_test(const char *fname, int line){
 
     GLenum err = glGetError();
     if (err != GL_NO_ERROR){
+        qDebug() << QString(fname)<< ":" << line;
         switch (err) {
-        qDebug() << fname << ":" << line;
         case GL_NO_ERROR:
             qDebug() << "GL_NO_ERROR";
             break;
