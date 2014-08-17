@@ -67,8 +67,7 @@ vbo_ref_t DGL_VBO::reserve(vbo_def_t *vref)
     outp.indx_offset =  (void*)this->_used_indx;
     outp.indx_data_skip = (GLushort) (tdskip);
 
-
-    this->_used_attr += vref->data_stride * vref->num_data;
+    this->_used_attr += vref->data_stride * vref->num_verts;
     this->_used_indx += vref->num_indexes * sizeof(GLushort);
 
     if (this->_used_attr > this->req_attr){

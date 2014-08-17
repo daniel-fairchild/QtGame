@@ -30,7 +30,8 @@ protected:
 
     vbo_locdef_t* vbo_attribs;
     size_t num_vbo_attribs;
-    size_t instance_stride;
+    size_t calculated_stride;
+    size_t expected_stride;
 
     void _shared_enable_attrs();
 

@@ -13,11 +13,7 @@ QtgDrawQueue::QtgDrawQueue(size_t item_size)
 
     this->qpos = 0;
     this->part_mask = ((1 << QPARTSIZEBITS)-1);
-}
-
-static inline draw_base_t* _lookup(draw_base_t** queues, int qpos, size_t item_size){
-    draw_base_t* tbl = queues[qpos >> QPARTSIZEBITS];
-    return (draw_base_t*) ((size_t)tbl + (PMASK & qpos)*item_size);
+    this->allocated_sub_queus = 0;
 }
 
 void QtgDrawQueue::lock()
@@ -35,10 +31,8 @@ void QtgDrawQueue::unlock()
 draw_base_t* QtgDrawQueue::next_item(){
     this->next_lock.lock();
     // test to see if we need to grow the allocation size
-    if ((this->qpos & this->part_mask) == 0){
-        this->grow();
-    }
-    draw_base_t*  outp = _lookup(this->sub_queues, this->qpos++, this->item_size);
+
+    draw_base_t*  outp = _lookup(sub_queues, this->qpos++, this->item_size);
     this->next_lock.unlock();
     return  outp;
 }
@@ -55,7 +49,20 @@ void QtgDrawQueue::draw_frame(){
     this->unlock();
 }
 
-void QtgDrawQueue::grow()
+void QtgDrawQueue::add_sub_queue(size_t qnum)
 {
-    this->sub_queues[qpos >> QPARTSIZEBITS] = (draw_base_t*)calloc(sizeof(draw_base_t), 1 << QPARTSIZEBITS);
+    this->sub_queues[qnum] = (draw_base_t*)calloc(sizeof(draw_base_t), 1 << QPARTSIZEBITS);
+    allocated_sub_queus++;
+}
+
+draw_base_t *QtgDrawQueue::_lookup(draw_base_t **queues, int qpos, size_t item_size){
+
+    size_t sub_q = qpos >> QPARTSIZEBITS;
+
+    if (sub_q >= this->allocated_sub_queus){
+        this->add_sub_queue(sub_q);
+    }
+
+    draw_base_t* tbl = queues[sub_q];
+    return (draw_base_t*) ((size_t)tbl + (PMASK & qpos)*item_size);
 }

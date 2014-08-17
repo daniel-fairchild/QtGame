@@ -17,6 +17,7 @@ public:
 
     GLuint buffer_ref();
     GLuint texture_ref();
+    GLuint depth_ref();
 
 protected:
     int width;

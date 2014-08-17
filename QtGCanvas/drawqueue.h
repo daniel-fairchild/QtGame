@@ -40,8 +40,11 @@ private:
     draw_base_t** sub_queues;
     int qpos;
     unsigned int part_mask;
+    size_t allocated_sub_queus;
 
-    void grow();
+    void add_sub_queue(size_t qnum);
+
+    draw_base_t* _lookup(draw_base_t** queues, int qpos, size_t item_size);
 
     size_t item_size;
 };

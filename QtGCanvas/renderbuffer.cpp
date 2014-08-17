@@ -58,15 +58,21 @@ GLuint RenderBuffer::texture_ref()
     return this->color_tex;
 }
 
+GLuint RenderBuffer::depth_ref()
+{
+    return this->depth_rb;
+}
+
 void RenderBuffer::_initFBO()
 {
     glGenFramebuffers(1, &fbo);
-    glGenRenderbuffers(1, &depth_rb);
     glGenTextures(1, &color_tex);
+
+//    glGenRenderbuffers(1, &depth_rb);
+    glGenTextures(1, &depth_rb);
 
     glBindTexture(GL_TEXTURE_2D, color_tex);
     //NULL means reserve texture memory, but texels are undefined
-
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                  this->pix_width(), this->pix_height(),
                  0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
@@ -80,9 +86,17 @@ void RenderBuffer::_initFBO()
 //    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
 //    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
 
-    glBindRenderbuffer(GL_RENDERBUFFER, depth_rb);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16,
-                          this->pix_width(), this->pix_height());
+//    glBindRenderbuffer(GL_RENDERBUFFER, depth_rb);
+//    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16,
+//                          this->pix_width(), this->pix_height());
+
+    glBindTexture(GL_TEXTURE_2D, depth_rb);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, this->pix_width(), pix_height(), 0,
+                 GL_DEPTH_COMPONENT, GL_UNSIGNED_SHORT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // //-------------------------
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -90,7 +104,8 @@ void RenderBuffer::_initFBO()
     // specify texture as color attachment
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, color_tex, 0);
     // specify depth_rb as depth attachment
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_rb);
+//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_rb);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth_rb, 0);
 
     // check for framebuffer complete
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);

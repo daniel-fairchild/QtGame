@@ -15,7 +15,7 @@ typedef struct {
 //    void* data;
 //    GLuint* indexes;
 
-    size_t num_data;
+    size_t num_verts;
     size_t num_indexes;
     size_t data_stride;
 } vbo_def_t;
