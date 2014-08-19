@@ -9,15 +9,6 @@
 #include <QVector3D>
 
 
-
-typedef struct
-{
-    QVector2D position;
-    QVector2D texCoord;
-} VertexData;
-
-
-
 class QtGDrawer
 {
 public:
