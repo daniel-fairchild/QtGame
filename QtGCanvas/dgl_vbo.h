@@ -9,7 +9,7 @@ typedef struct {
     GLushort* indx_data;
     void* indx_offset;
     GLushort indx_data_skip;
-} vbo_ref_t;
+} vbo_data_ref_t;
 
 typedef struct {
 //    void* data;
@@ -28,7 +28,7 @@ public:
     DGL_VBO(size_t indx_size, size_t atrr_size);
     ~DGL_VBO();
 
-    vbo_ref_t reserve(vbo_def_t* vref);
+    vbo_data_ref_t reserve(vbo_def_t* vref);
 
     bool flush2gpu();
     void bind();

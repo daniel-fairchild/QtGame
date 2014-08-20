@@ -44,9 +44,9 @@ void DGL_VBO::bind()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vboIds[1]);
 }
 
-vbo_ref_t DGL_VBO::reserve(vbo_def_t *vref)
+vbo_data_ref_t DGL_VBO::reserve(vbo_def_t *vref)
 {
-    vbo_ref_t outp;
+    vbo_data_ref_t outp;
 
     int modulo = this->_used_attr % vref->data_stride;
 

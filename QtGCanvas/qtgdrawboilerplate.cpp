@@ -12,7 +12,7 @@ void QtGDrawBoilerPlate::_shared_enable_attrs()
     quintptr offset = 0;
 
     for (size_t i = 0; i < num_vbo_attribs; i++){
-        vbo_locdef_t* tld = vbo_attribs+i;
+        attrib_locdef_t* tld = vbo_attribs+i;
         _bp_canvas->glEnableVertexAttribArray(tld->a_loc);
         _bp_canvas->glVertexAttribPointer(tld->a_loc, tld->asize, tld->atype, GL_FALSE, this->calculated_stride, (const void *)offset);
         offset+= tld->cstep;
