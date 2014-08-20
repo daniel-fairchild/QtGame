@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QtOpenGL/QGLShaderProgram>
+#include "qtgqueueman.h"
 
 class QtGShaderBundle
 {
@@ -18,6 +19,8 @@ protected:
     const char* geometryfn;
     const char* vertexfn;
     QGLShaderProgram* prog;
+
+    QtGQueueMan* queman;
 
 private:
 };
