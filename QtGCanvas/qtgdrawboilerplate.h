@@ -13,7 +13,7 @@ typedef struct {
     GLint asize;
     size_t cstep;
     int a_loc;
-} vbo_locdef_t;
+} attrib_locdef_t;
 
 class QtGDrawBoilerPlate : public QtGDrawer
 {
@@ -28,7 +28,7 @@ protected:
 
     GLuint vboIds[2];
 
-    vbo_locdef_t* vbo_attribs;
+    attrib_locdef_t* vbo_attribs;
     size_t num_vbo_attribs;
     size_t calculated_stride;
     size_t expected_stride;
