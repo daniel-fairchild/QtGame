@@ -83,12 +83,17 @@ vbo_data_ref_t DGL_VBO::reserve(vbo_def_t *vref)
 
 bool DGL_VBO::flush2gpu()
 {
+    this->flush2gpu(true);
+}
+
+bool DGL_VBO::flush2gpu(bool isStatic)
+{
     this->bind();
 
     qDebug() << "VBO bytes: " << this->_used_attr;
     qDebug() << "VBO index bytes: " << this->_used_indx;
     // Transfer vertex data to VBO 0
-    glBufferData(GL_ARRAY_BUFFER, this->_used_attr, this->_attr_buf, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, this->_used_attr, this->_attr_buf, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
     // Transfer index data to VBO 1
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->_used_indx, this->_indx_buf, GL_STATIC_DRAW);
 

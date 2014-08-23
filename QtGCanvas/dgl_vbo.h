@@ -31,6 +31,9 @@ public:
     vbo_data_ref_t reserve(vbo_def_t* vref);
 
     bool flush2gpu();
+
+    bool flush2gpu(bool isStatic);
+
     void bind();
 
     void _shared_init(size_t atrr_size, size_t indx_size);
