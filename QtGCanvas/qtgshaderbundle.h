@@ -3,12 +3,13 @@
 
 #include <QString>
 #include <QtOpenGL/QGLShaderProgram>
-#include "qtgqueueman.h"
 
 class QtGShaderBundle
 {
 public:
-    QtGShaderBundle(const char* fragmentfn, const char* vertexfn, const char* geometryfn=NULL);
+    QtGShaderBundle(const char* fragmentfn,
+                    const char* vertexfn,
+                    const char* geometryfn=NULL);
 
     QGLShaderProgram* program();
 
@@ -19,8 +20,6 @@ protected:
     const char* geometryfn;
     const char* vertexfn;
     QGLShaderProgram* prog;
-
-    QtGQueueMan* queman;
 
 private:
 };

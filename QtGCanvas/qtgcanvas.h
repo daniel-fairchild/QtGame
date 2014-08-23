@@ -53,7 +53,6 @@ protected:
     QVector2D mousePressPosition;
     qreal angularSpeed;
 
-protected:
     void paintGL();
     void resizeGL(int w, int h);
 
