@@ -23,6 +23,8 @@ class QtGCanvas : public GCanvas, public QGLWidget, public QGLFunctions, public 
 
 public:
     QtGCanvas(QtGfxSource* game, QGLFormat* format = 0, QWidget* parent = 0);
+    ~QtGCanvas();
+
     int set_shader(QtGShaderBundle* shader, QtGDrawer* owner);
 
     QVector3D rotationAxis;

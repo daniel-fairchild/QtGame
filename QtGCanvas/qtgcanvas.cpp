@@ -77,6 +77,12 @@ QtGCanvas::QtGCanvas(QtGfxSource *agame, QGLFormat *format, QWidget *parent) : Q
     this->should_exit = false;
 }
 
+QtGCanvas::~QtGCanvas()
+{
+    delete queman;
+    delete gfx_src;
+}
+
 int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
     GLuint sdi = shader->program()->programId();
     if (this->active_shader != sdi){
@@ -100,18 +106,6 @@ int QtGCanvas::set_shader(QtGShaderBundle *shader, QtGDrawer *owner){
     return -1;
 }
 
-//static inline float _suborto(float world, int scrnpix, int mdlpix){
-//    //        return 2.0* mdlpix / (world * scrnpix);
-//    return 2.0* mdlpix / (world * scrnpix);
-//}
-
-//QVector2D QtGCanvas::ortoPixProj(ortoPixProj_t *proj)
-//{
-//    return QVector2D (
-//                _suborto(proj->coord_width, this->pix_width(), proj->pix_width),
-//                _suborto(proj->coord_height, this->pix_height(), proj->pix_height));
-//}
-
 int QtGCanvas::pix_width()
 {
     return this->width() * devicePixelRatio();
@@ -120,6 +114,13 @@ int QtGCanvas::pix_width()
 int QtGCanvas::pix_height(){
     return this->height() * devicePixelRatio();
 }
+
+#ifndef GL_TABLE_TOO_LARGE
+#define GL_TABLE_TOO_LARGE                0x8031
+#endif
+#ifndef GL_INVALID_FRAMEBUFFER_OPERATION
+#define GL_INVALID_FRAMEBUFFER_OPERATION                     0x0506
+#endif
 
 bool QtGCanvas::gl_error_test(const char *fname, int line){
 
@@ -148,7 +149,14 @@ bool QtGCanvas::gl_error_test(const char *fname, int line){
         case GL_OUT_OF_MEMORY:
             qDebug() << "GL_OUT_OF_MEMORY";
             break;
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            qDebug() << "GL_INVALID_FRAMEBUFFER_OPERATION​";
+            break;
+        case GL_TABLE_TOO_LARGE:
+            qDebug() << "GL_TABLE_TOO_LARGE​";
+            break;
         default:
+            qDebug() << "UNKNOWN GL ERROR";
             break;
         }
         return true;

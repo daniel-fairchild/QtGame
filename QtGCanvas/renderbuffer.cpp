@@ -110,7 +110,7 @@ void RenderBuffer::_initFBO()
     // check for framebuffer complete
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if(status != GL_FRAMEBUFFER_COMPLETE){
-        qDebug() << status;
+        qDebug() << "!GL_FRAMEBUFFER_COMPLETE:" <<status;
     }
 }
 
