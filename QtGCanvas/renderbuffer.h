@@ -9,8 +9,8 @@ class RenderBuffer : public OrtoProjector
 {
 public:
 
-    RenderBuffer();
-    RenderBuffer(int aheight, int awidth);
+    RenderBuffer(bool depth_texture);
+    RenderBuffer(int aheight, int awidth, bool depth_texture);
 
     int pix_width();
     int pix_height();
@@ -23,7 +23,7 @@ protected:
     int width;
     int height;
 
-    void _initFBO();
+    void _initFBO(bool depth_texture);
     GLuint color_tex, fbo, depth_rb; // grid_tex, TODO
 };
 

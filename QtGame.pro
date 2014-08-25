@@ -10,9 +10,9 @@ SUBDIRS = \
         QtGCanvas \
         QtGSound \
         QtGMusic \
-        QtGamepad \
         QtGLink \
-        QtGStorage
+        QtGStorage \
+#        QtGamepad \
 
 # build must be last:
 #CONFIG += ordered

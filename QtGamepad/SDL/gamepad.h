@@ -5,7 +5,6 @@
 
 #include <SDL/SDL_joystick.h>
 
-
 class QtSDLGamePad : public QtGamepad
 {
 

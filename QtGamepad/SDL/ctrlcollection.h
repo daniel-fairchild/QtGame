@@ -1,7 +1,7 @@
 #ifndef QTSDLCTRLCOLLECTION_H
 #define QTSDLCTRLCOLLECTION_H
 
-#include <SDL/SDL.h>
+//#include <SDL/SDL.h>
 
 #include "../qtctrlcollection.h"
 #include "gamepad.h"
