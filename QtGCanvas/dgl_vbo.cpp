@@ -16,10 +16,6 @@ void DGL_VBO::_shared_init(size_t atrr_size, size_t indx_size)
 
     this->_used_attr = 0;
     this->_used_indx = 0;
-
-    // gl initialization
-    glGenBuffers(2, _vboIds);
-    this->bind();
 }
 
 DGL_VBO::DGL_VBO()
@@ -88,19 +84,23 @@ bool DGL_VBO::flush2gpu()
 
 bool DGL_VBO::flush2gpu(bool isStatic)
 {
-    this->bind();
+    if (this->_used_attr + this->_used_indx){
 
-    qDebug() << "VBO bytes: " << this->_used_attr;
-    qDebug() << "VBO index bytes: " << this->_used_indx;
-    // Transfer vertex data to VBO 0
-    glBufferData(GL_ARRAY_BUFFER, this->_used_attr, this->_attr_buf, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-    // Transfer index data to VBO 1
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->_used_indx, this->_indx_buf, GL_STATIC_DRAW);
+        // gl initialization
+        glGenBuffers(2, _vboIds);
+        this->bind();
+        qDebug() << "VBO bytes: " << this->_used_attr;
+        qDebug() << "VBO index bytes: " << this->_used_indx;
+        // Transfer vertex data to VBO 0
+        glBufferData(GL_ARRAY_BUFFER, this->_used_attr, this->_attr_buf, isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+        // Transfer index data to VBO 1
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->_used_indx, this->_indx_buf, GL_STATIC_DRAW);
+    }
+    else qDebug() << "Nothing to flush from DGL_VBO!";
 
     free(this->_indx_buf);
 
     this->_attr_buf = NULL;
     this->_indx_buf = NULL;
 
-    return QtGCanvas::gl_error_test(__FILE__, __LINE__);
 }
