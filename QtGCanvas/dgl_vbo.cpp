@@ -71,7 +71,7 @@ vbo_data_ref_t DGL_VBO::reserve(vbo_def_t *vref)
     }
 
     if (this->_used_indx > this->req_indx){
-        qDebug() << "VBO index buffer exceeds requested size!";
+        qDebug() << "VBO index buffer size ("<< _used_indx <<") exceeds requested size ("<< req_indx<<")!";
     }
 
     return outp;
