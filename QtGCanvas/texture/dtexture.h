@@ -2,8 +2,6 @@
 #define DTEXTURE_H
 
 #include <QtOpenGL/QGLFunctions>
-#include "pnm.h"
-
 
 class DTexture
 {
@@ -37,19 +35,46 @@ public:
      */
     bool deactivate();
 
-
+    /**
+     * @brief texttureId
+     * @return texture ID of the activated texture on the GPU
+     */
     GLuint texttureId();
 
-    pnm_img *imgData();
+
+    /**
+     * @brief imgData
+     * @return a void pointer to a pnm_img_t*, defined in netphm.h
+     */
+    void *imgData();
+
+    /**
+     * @brief pnm_get_pixel
+     * @param img
+     * @param x
+     * @param y
+     * @return
+     */
+    void* getPixel(int x, int y);
+
+    /**
+     * @brief pnm_set_pixel
+     * @param img
+     * @param x
+     * @param y
+     * @param pixel
+     */
+    void setPixel(int x, int y, void* pixel);
+
+    void setFormat(GLuint format);
 
 protected:
     GLuint _textureId;
 
     bool _activated;
-    pnm_img * _img;
+    void* _img;
 
 private:
-    void _init();
 };
 
 
