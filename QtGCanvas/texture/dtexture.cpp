@@ -37,14 +37,19 @@ inline static pnm_image_type _GL2PNM(GLuint f){
 
 bool DTexture::activate()
 {
+    return this->activate(false);
+}
+
+bool DTexture::activate(bool intepolate)
+{
     pnm_img_t* t_img = (pnm_img_t*)this->_img;
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &_textureId);
     glBindTexture(GL_TEXTURE_2D, _textureId);
     glTexImage2D(GL_TEXTURE_2D, 0, _PNM2GL(t_img->p), t_img->width, t_img->height, 0, _PNM2GL(t_img->p), GL_UNSIGNED_BYTE, t_img->pixels);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, intepolate ? GL_LINEAR : GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, intepolate ? GL_LINEAR : GL_NEAREST);
 
     GLenum err = glGetError();
     if (err != GL_NO_ERROR){

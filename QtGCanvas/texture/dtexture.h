@@ -29,6 +29,8 @@ public:
      */
     bool activate();
 
+    bool activate(bool intepolate);
+
     /**
      * @brief deactivate
      * @return
