@@ -1,5 +1,8 @@
 #include "dtexture.h"
 #include <qdebug.h>
+#include "netpbm.h"
+
+#include <QtCore/QFile>
 
 inline static GLuint _PNM2GL(int p){
     switch (p){
@@ -9,7 +12,7 @@ inline static GLuint _PNM2GL(int p){
         return -1;
     case 2:
     case 5:
-        return GL_ALPHA;
+        return GL_LUMINANCE;
     case 3:
     case 6:
         return GL_RGB;
@@ -18,7 +21,6 @@ inline static GLuint _PNM2GL(int p){
         return -1;
     }
 }
-
 
 inline static pnm_image_type _GL2PNM(GLuint f){
     switch (f){
@@ -35,10 +37,12 @@ inline static pnm_image_type _GL2PNM(GLuint f){
 
 bool DTexture::activate()
 {
+    pnm_img_t* t_img = (pnm_img_t*)this->_img;
+
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glGenTextures(1, &_textureId);
     glBindTexture(GL_TEXTURE_2D, _textureId);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _img->width, _img->height, 0, GL_RGB, GL_UNSIGNED_BYTE, _img->pixels);
+    glTexImage2D(GL_TEXTURE_2D, 0, _PNM2GL(t_img->p), t_img->width, t_img->height, 0, _PNM2GL(t_img->p), GL_UNSIGNED_BYTE, t_img->pixels);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -65,30 +69,39 @@ GLuint DTexture::texttureId()
     return this->_textureId;
 }
 
-pnm_img *DTexture::imgData()
+void *DTexture::imgData()
 {
     return this->_img;
 }
 
-void DTexture::_init()
+void *DTexture::getPixel(int x, int y)
 {
-
+    return NetPBM::pnm_get_pixel(((pnm_img_t*)_img), x, y);
 }
 
+void DTexture::setPixel(int x, int y, void *pixel)
+{
+    NetPBM::pnm_set_pixel(((pnm_img_t*)_img), x, y, pixel);
+}
+
+void DTexture::setFormat(GLuint format)
+{
+    NetPBM::pnm_set_imagetype(((pnm_img_t*)_img), _GL2PNM(format));
+}
 
 DTexture::DTexture(int width, int height, GLenum format)
 {
-    this->_img = pnm_create(width, height, _GL2PNM(format));
+    this->_img = NetPBM::pnm_create(width, height, _GL2PNM(format));
 }
 
 
 DTexture::DTexture(const char *filename)
 {
-    this->_img = pnm_read(filename);
+    this->_img = NetPBM::pnm_read(filename);
 }
 
 DTexture::~DTexture()
 {
     this->deactivate();
-    pnm_destroy(this->_img);
+    NetPBM::pnm_destroy((pnm_img_t*)this->_img);
 }

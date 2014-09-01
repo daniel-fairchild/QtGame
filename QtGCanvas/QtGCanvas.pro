@@ -29,7 +29,7 @@ SOURCES += \
     renderbuffer.cpp \
     ortoprojector.cpp \
     dgl_vbo.cpp \
-#    texture/pnm.c \
+    texture/netpbm.cpp
 
 HEADERS += \
     qtgcanvas.h \
@@ -43,7 +43,7 @@ HEADERS += \
     renderbuffer.h \
     ortoprojector.h \
     dgl_vbo.h \
-#    texture/pnm.h \
+    texture/netpbm.h
 
 
 TARGET = QtGCanvas
