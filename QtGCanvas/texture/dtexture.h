@@ -70,6 +70,11 @@ public:
 
     void setFormat(GLuint format);
 
+    void store(const char* fname);
+
+    int width();
+    int height();
+
 protected:
     GLuint _textureId;
 

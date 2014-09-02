@@ -94,6 +94,21 @@ void DTexture::setFormat(GLuint format)
     NetPBM::pnm_set_imagetype(((pnm_img_t*)_img), _GL2PNM(format));
 }
 
+void DTexture::store(const char *fname)
+{
+    NetPBM::pnm_write((pnm_img_t*)_img, fname);
+}
+
+int DTexture::width()
+{
+    return ((pnm_img_t*)_img)->width;
+}
+
+int DTexture::height()
+{
+    return ((pnm_img_t*)_img)->height;
+}
+
 DTexture::DTexture(int width, int height, GLenum format)
 {
     this->_img = NetPBM::pnm_create(width, height, _GL2PNM(format));
